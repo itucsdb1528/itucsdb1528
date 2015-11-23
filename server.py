@@ -82,7 +82,7 @@ def initialize_database():
         FTNAME VARCHAR (30),
         FTAGE  INT             DEFAULT 0,
         FTFEES   DECIMAL (18, 2),       
-        FOREIGN KEY FTID REFRENCES DIET (DID)
+        FOREIGN KEY (FTID) REFERENCES DIET (DID)
         )"""
         cursor.execute(query)
         
