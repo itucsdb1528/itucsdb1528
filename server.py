@@ -40,7 +40,7 @@ def initialize_database():
         query = """DROP TABLE IF EXISTS DIETT"""
         cursor.execute(query)
         
-        query = """CREATE TABLE MENSFITNESS
+        query = """CREATE TABLE WOMENSFITNESS
         (
         ID   INT              NOT NULL,
         NAME VARCHAR (30)     NOT NULL,
@@ -51,14 +51,16 @@ def initialize_database():
         )"""
         cursor.execute(query)
         
-        query = """CREATE TABLE WOMENSFITNESS
+        query = """CREATE TABLE MENSFITNESS
         (
         ID   INT              NOT NULL,
         NAME VARCHAR (30)     NOT NULL,
         AGE  INT              NOT NULL,
         ADDRESS  CHAR (25) ,
-        SALARY   DECIMAL (18, 2),       
-        PRIMARY KEY (ID)
+        SALARY   DECIMAL (18, 2),
+        WOMANRIVAL_ID INT,      
+        PRIMARY KEY (ID),
+        FOREIGN KEY (WOMANRIVAL_ID) REFERENCES WOMENSFITNESS(ID)
         )"""
         cursor.execute(query)
         
