@@ -213,7 +213,12 @@ def initialize_database():
         query = """INSERT INTO DIETT (DID, DNAME, DAGE,DIETFROM, DIETSTART)
         VALUES(2000, 'GEORGE CLONI', 32, 'SUGAR','2 FEB' )"""
         cursor.execute(query)
+        
+        query = """SELECT * FROM DIETT"""
+        cursor.execute(query)
       
+        query = """SELECT * FROM FITNESSTYPES"""
+        cursor.execute(query)
         
         connection.commit()
     return redirect(url_for('home'))
