@@ -80,6 +80,7 @@ def update_values():
         connection.commit()
     return redirect(url_for('home'))
 
+
 @app.route('/update_DIETT')
 def update_DIETT():
     with dbapi2.connect(app.config['dsn']) as connection:
@@ -87,11 +88,12 @@ def update_DIETT():
         
         query = """UPDATE DIETT
         SET DNAME = 'jORGE W BUSH'
-        WHERE DID = 1000"""
+        WHERE DID = 3000"""
         cursor.execute(query)
     
         connection.commit()
     return redirect(url_for('home'))
+
 
 @app.route('/delete_values')
 def delete_values():
@@ -104,6 +106,19 @@ def delete_values():
     
         connection.commit()
     return redirect(url_for('home'))
+
+@app.route('/delete_DIETT')
+def delete_DIETT():
+    with dbapi2.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        
+        query = """DELETE FROM DIETT
+        WHERE DID = 1000"""
+        cursor.execute(query)
+    
+        connection.commit()
+    return redirect(url_for('home'))
+
 
 @app.route('/initdatabase')
 def initialize_database():
@@ -167,6 +182,13 @@ def initialize_database():
         FOREIGN KEY (RECOMMENDED_DIET) REFERENCES DIETT (DID)
         )"""
         cursor.execute(query)
+        query = """INSERT INTO DIETT (DID, DNAME, DAGE, DIETFROM, DIETSTART)
+        VALUES(3000, 'OBAMA', 52,'FISH', '52 MAR' )"""
+        cursor.execute(query)
+        
+        query = """INSERT INTO DIETT (DID, DNAME, DAGE,DIETFROM, DIETSTART)
+        VALUES(4000, 'MICHEL JAKSON', 38, 'COW MEAT','82 APR' )"""
+        cursor.execute(query)
         
         query = """INSERT INTO MENSFITNESS (ID, NAME, AGE)
         VALUES(001, 'GEORGE ARNOLD', 22)"""
@@ -184,17 +206,18 @@ def initialize_database():
         VALUES(057, 'ELIZABETH SECRET', 20)"""
         cursor.execute(query)
         
-        query = """INSERT INTO DIETT (DID, DNAME, DAGE, DIETSTART)
-        VALUES(1000, 'GEORGE ARNOLD', 22, '2 FEB' )"""
+        query = """INSERT INTO DIETT (DID, DNAME, DAGE, DIETFROM,DIETSTART)
+        VALUES(1000, 'GEORGE ARNOLD', 22, 'MILK','2 FEB' )"""
         cursor.execute(query)
         
-        query = """INSERT INTO DIETT (DID, DNAME, DAGE, DIETSTART)
-        VALUES(2000, 'GEORGE CLONI', 32, '10 FEB' )"""
+        query = """INSERT INTO DIETT (DID, DNAME, DAGE,DIETFROM, DIETSTART)
+        VALUES(2000, 'GEORGE CLONI', 32, 'SUGAR','2 FEB' )"""
         cursor.execute(query)
-        
+      
         
         connection.commit()
     return redirect(url_for('home'))
+
 
 if __name__ == '__main__':
     PORT = int(os.getenv('VCAP_APP_PORT', '5000'))
