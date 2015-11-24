@@ -23,7 +23,7 @@ def get_elephantsql_dsn(vcap_services):
 
 
 @app.route('/') 
-def home_page():
+def home():
     now = datetime.datetime.now()
     return render_template('home.html', current_time=now.ctime())
 
