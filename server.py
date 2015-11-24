@@ -90,10 +90,10 @@ def initialize_database():
         query = """CREATE TABLE DIETT
         (
         DID   INT             NOT NULL,
-        NAME VARCHAR (30)     NOT NULL,
-        AGE  INT              NOT NULL,
-        ADDRESS  CHAR (25) ,
-        SALARY   DECIMAL (18, 2),       
+        DNAME VARCHAR (30)             ,
+        DAGE  INT                      ,
+        DIETFROM  CHAR (25) ,
+        DIETSTART  VARCHAR (30),       
         PRIMARY KEY (DID)
         )"""
         cursor.execute(query)
@@ -113,6 +113,15 @@ def initialize_database():
         query = """INSERT INTO WOMENSFITNESS (ID, NAME, AGE)
         VALUES(057, 'ELIZABETH SECRET', 20)"""
         cursor.execute(query)
+        
+        query = """INSERT INTO DIETT (DID, DNAME, DAGE, DIETSTART)
+        VALUES(1000, 'GEORGE ARNOLD', 22, '2 FEB' )"""
+        cursor.execute(query)
+        
+        query = """INSERT INTO DIETT (DID, DNAME, DAGE, DIETSTART)
+        VALUES(2000, 'GEORGE CLONI', 32, '10 FEB' )"""
+        cursor.execute(query)
+        
         
         connection.commit()
     return redirect(url_for('home'))
