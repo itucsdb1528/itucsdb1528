@@ -27,6 +27,25 @@ def home():
     now = datetime.datetime.now()
     return render_template('home.html', current_time=now.ctime())
 
+@app.route('/mensfitness') 
+def mensfitness_page():
+    return render_template('mensfitness.html') 
+
+@app.route('/womensfitness') 
+def womensfitness_page():
+    return render_template('womensfitness.html') 
+
+@app.route('/nutritionprograms') 
+def nutritionprograms_page():
+    return render_template('nutritionprograms.html') 
+
+@app.route('/fitnessmachines') 
+def fitnessmachines_page():
+    return render_template('fitnessmachines.html') 
+
+@app.route('/fitnessawards') 
+def fitnessawards_page():
+    return render_template('fitnessawards.html') 
     
 @app.route('/ftypes') 
 def ftypes_page():
