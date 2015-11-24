@@ -80,6 +80,19 @@ def update_values():
         connection.commit()
     return redirect(url_for('home'))
 
+@app.route('/update_DIETT')
+def update_DIETT():
+    with dbapi2.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        
+        query = """UPDATE DIETT
+        SET DNAME = 'jORGE W BUSH'
+        WHERE DID = 1000"""
+        cursor.execute(query)
+    
+        connection.commit()
+    return redirect(url_for('home'))
+
 @app.route('/delete_values')
 def delete_values():
     with dbapi2.connect(app.config['dsn']) as connection:
