@@ -67,7 +67,6 @@ def muinf_page():
 def ffitnessers_page():
     return render_template('frecords.html')
 
-
 @app.route('/initdatabase')
 def initialize_database():
     with dbapi2.connect(app.config['dsn']) as connection:
@@ -77,6 +76,9 @@ def initialize_database():
         cursor.execute(query)
         
         query = """DROP TABLE IF EXISTS WOMENSFITNESS"""
+        cursor.execute(query)
+        
+        query = """DROP TABLE IF EXISTS FITNESSTYPES"""
         cursor.execute(query)
         
         query = """DROP TABLE IF EXISTS DIETT"""
@@ -114,6 +116,17 @@ def initialize_database():
         DIETFROM  CHAR (25) ,
         DIETSTART  VARCHAR (30),       
         PRIMARY KEY (DID)
+        )"""
+        cursor.execute(query)
+        
+        query = """CREATE TABLE FITNESSTYPES
+        (
+        FTID   INT              NOT NULL ,
+        RECOMMENDED_DIET INT,
+        FTNAME VARCHAR (30),
+        FTAGE  INT,
+        FTFEES   DECIMAL (18, 2),       
+        FOREIGN KEY (RECOMMENDED_DIET) REFERENCES DIETT (DID)
         )"""
         cursor.execute(query)
         
