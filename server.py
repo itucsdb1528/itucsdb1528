@@ -67,6 +67,19 @@ def muinf_page():
 def ffitnessers_page():
     return render_template('frecords.html')
 
+@app.route('/update_values')
+def update_values():
+    with dbapi2.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        
+        query = """UPDATE MENSFITNESS
+        SET NAME = 'ARNOLD SCHWARZENEGER'
+        WHERE ID = 001"""
+        cursor.execute(query)
+    
+        connection.commit()
+    return redirect(url_for('home'))
+
 @app.route('/initdatabase')
 def initialize_database():
     with dbapi2.connect(app.config['dsn']) as connection:
