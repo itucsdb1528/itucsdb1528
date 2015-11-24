@@ -57,15 +57,15 @@ def frecords_page():
 
 @app.route('/fdiet') 
 def fdiet_page():
-    return render_template('frecords.html')
+    return render_template('fdiet.html')
 
 @app.route('/muinf') 
 def muinf_page():
-    return render_template('frecords.html')
+    return render_template('muinf.html')
 
 @app.route('/ffitnessers') 
 def ffitnessers_page():
-    return render_template('frecords.html')
+    return render_template('ffitnessers.html')
 
 @app.route('/update_values')
 def update_values():
