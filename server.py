@@ -21,10 +21,33 @@ def get_elephantsql_dsn(vcap_services):
              dbname='{}'""".format(user, password, host, port, dbname)
     return dsn
 
-@app.route('/')
-def home():
+
+@app.route('/') 
+def home_page():
     now = datetime.datetime.now()
     return render_template('home.html', current_time=now.ctime())
+
+    
+@app.route('/ftypes') 
+def ftypes_page():
+    return render_template('ftypes.html')
+
+@app.route('/frecords') 
+def frecords_page():
+    return render_template('frecords.html')
+
+@app.route('/fdiet') 
+def fdiet_page():
+    return render_template('frecords.html')
+
+@app.route('/muinf') 
+def muinf_page():
+    return render_template('frecords.html')
+
+@app.route('/ffitnessers') 
+def ffitnessers_page():
+    return render_template('frecords.html')
+
 
 @app.route('/initdatabase')
 def initialize_database():
