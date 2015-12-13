@@ -102,7 +102,7 @@ def add_menfitness(ido, name, age, height, weight, favmachine, award, program):
         cursor = connection.cursor()
         
         cursor.execute("""INSERT INTO MENSFITNESS (ID, NAME, AGE, HEIGHT, WEIGHT, FAV_MACHINE, LAST_AWARD, NUT_PROGRAM)
-        VALUES(%s, %s, %s, %s, %s, 301, 901, 201)""", (ido, name, age, height, weight))
+        VALUES(%s, %s, %s, %s, %s, %s, %s, %s)""", (ido, name, age, height, weight, favmachine, award, program))
 
         connection.commit()
 
