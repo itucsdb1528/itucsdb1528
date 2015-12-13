@@ -283,6 +283,9 @@ def initialize_database():
         cursor.execute(query)
         
         connection.commit()
+        
+        print("Database Created")
+        
     return redirect(url_for('home'))
 
 
