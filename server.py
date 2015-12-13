@@ -28,7 +28,7 @@ def home():
     return render_template('home.html', current_time=now.ctime())
 
 @app.route('/mensfitness') 
-def mensfitness_page():
+def mensfitness_page():    
     return render_template('mensfitness.html') 
 
 @app.route('/womensfitness') 
@@ -125,26 +125,50 @@ def initialize_database():
     with dbapi2.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
         
-        query = """DROP TABLE IF EXISTS MENSFITNESS"""
+        query = """DROP TABLE IF EXISTS MENSFITNESS CASCADE"""
         cursor.execute(query)
         
-        query = """DROP TABLE IF EXISTS WOMENSFITNESS"""
+        query = """DROP TABLE IF EXISTS WOMENSFITNESS CASCADE"""
         cursor.execute(query)
         
-        query = """DROP TABLE IF EXISTS FITNESSTYPES"""
+        query = """DROP TABLE IF EXISTS NUTRITIONPROGRAMS CASCADE"""
         cursor.execute(query)
         
-        query = """DROP TABLE IF EXISTS DIETT"""
+        query = """DROP TABLE IF EXISTS FITNESSMACHINES CASCADE"""
         cursor.execute(query)
         
-        query = """CREATE TABLE WOMENSFITNESS
+        query = """DROP TABLE IF EXISTS FITNESSAWARDS CASCADE"""
+        cursor.execute(query)
+        
+        query = """DROP TABLE IF EXISTS DIETT CASCADE"""
+        cursor.execute(query)
+        
+        query = """DROP TABLE IF EXISTS FITNESSTYPES CASCADE"""
+        cursor.execute(query)
+        
+        query = """CREATE TABLE NUTRITIONPROGRAMS
         (
         ID   INT              NOT NULL,
         NAME VARCHAR (30)     NOT NULL,
-        AGE  INT              NOT NULL,
-        ADDRESS  CHAR (25) ,
-        SALARY   DECIMAL (18, 2),       
-        PRIMARY KEY (ID)
+        CALORIES INT,
+        PRIMARY KEY(ID)
+        )"""
+        cursor.execute(query)
+        
+        query = """CREATE TABLE FITNESSMACHINES
+        (
+        ID   INT              NOT NULL,
+        NAME VARCHAR (30)     NOT NULL,
+        WORKING_MUSCLES VARCHAR(50),
+        PRIMARY KEY(ID)
+        )"""
+        cursor.execute(query)
+        
+        query = """CREATE TABLE FITNESSAWARDS
+        (
+        ID   INT              NOT NULL,
+        BRANCH VARCHAR(50)    NOT NULL,
+        PRIMARY KEY(ID)
         )"""
         cursor.execute(query)
         
@@ -153,11 +177,32 @@ def initialize_database():
         ID   INT              NOT NULL,
         NAME VARCHAR (30)     NOT NULL,
         AGE  INT              NOT NULL,
-        ADDRESS  CHAR (25) ,
-        SALARY   DECIMAL (18, 2),
-        WOMANRIVAL_ID INT,      
+        HEIGHT INT,
+        WEIGHT INT,
+        FAV_MACHINE INT,
+        LAST_AWARD INT,
+        NUT_PROGRAM INT,
         PRIMARY KEY (ID),
-        FOREIGN KEY (WOMANRIVAL_ID) REFERENCES WOMENSFITNESS(ID)
+        FOREIGN KEY (FAV_MACHINE) REFERENCES FITNESSMACHINES(ID),
+        FOREIGN KEY (LAST_AWARD) REFERENCES FITNESSAWARDS(ID),
+        FOREIGN KEY (NUT_PROGRAM) REFERENCES NUTRITIONPROGRAMS(ID)
+        )"""
+        cursor.execute(query)
+        
+        query = """CREATE TABLE WOMENSFITNESS
+        (
+        ID   INT              NOT NULL,
+        NAME VARCHAR (30)     NOT NULL,
+        AGE  INT              NOT NULL,
+        HEIGHT INT,
+        WEIGHT INT,
+        FAV_MACHINE INT,
+        LAST_AWARD INT,
+        NUT_PROGRAM INT,
+        PRIMARY KEY (ID),
+        FOREIGN KEY (FAV_MACHINE) REFERENCES FITNESSMACHINES(ID),
+        FOREIGN KEY (LAST_AWARD) REFERENCES FITNESSAWARDS(ID),
+        FOREIGN KEY (NUT_PROGRAM) REFERENCES NUTRITIONPROGRAMS(ID)
         )"""
         cursor.execute(query)
         
@@ -182,28 +227,45 @@ def initialize_database():
         FOREIGN KEY (RECOMMENDED_DIET) REFERENCES DIETT (DID)
         )"""
         cursor.execute(query)
+        
+        query = """INSERT INTO NUTRITIONPROGRAMS (ID, NAME, CALORIES)
+        VALUES(201, 'EGG PROGRAM', 2400)"""
+        cursor.execute(query)
+        
+        query = """INSERT INTO NUTRITIONPROGRAMS (ID, NAME, CALORIES)
+        VALUES(202, 'CEREALS PROGRAM', 1500)"""
+        cursor.execute(query)
+        
+        query = """INSERT INTO FITNESSMACHINES (ID, NAME, WORKING_MUSCLES)
+        VALUES(301, 'BARFIKS MACHINE', 'SHOULDERS')"""
+        cursor.execute(query)
+        
+        query = """INSERT INTO FITNESSMACHINES (ID, NAME, WORKING_MUSCLES)
+        VALUES(302, 'ROWING MACHINE', 'BACK')"""
+        cursor.execute(query)
+        
+        query = """INSERT INTO FITNESSAWARDS (ID, BRANCH)
+        VALUES(901, 'SWIMMING')"""
+        cursor.execute(query)
+        
+        query = """INSERT INTO FITNESSAWARDS (ID, BRANCH)
+        VALUES(902, 'RUNNING')"""
+        cursor.execute(query)
+        
+        query = """INSERT INTO MENSFITNESS (ID, NAME, AGE, FAV_MACHINE, LAST_AWARD, NUT_PROGRAM)
+        VALUES(001, 'GEORGE ARNOLD', 22, 301, 901, 201)"""
+        cursor.execute(query)
+        
+        query = """INSERT INTO WOMENSFITNESS (ID, NAME, AGE, FAV_MACHINE, LAST_AWARD, NUT_PROGRAM)
+        VALUES(101, 'VICTORIA SCHARZKOPF', 19, 302, 902, 202)"""
+        cursor.execute(query)
+        
         query = """INSERT INTO DIETT (DID, DNAME, DAGE, DIETFROM, DIETSTART)
         VALUES(3000, 'OBAMA', 52,'FISH', '52 MAR' )"""
         cursor.execute(query)
         
         query = """INSERT INTO DIETT (DID, DNAME, DAGE,DIETFROM, DIETSTART)
         VALUES(4000, 'MICHEL JAKSON', 38, 'COW MEAT','82 APR' )"""
-        cursor.execute(query)
-        
-        query = """INSERT INTO MENSFITNESS (ID, NAME, AGE)
-        VALUES(001, 'GEORGE ARNOLD', 22)"""
-        cursor.execute(query)
-        
-        query = """INSERT INTO MENSFITNESS (ID, NAME, AGE)
-        VALUES(002, 'IVAN DROGO', 26)"""
-        cursor.execute(query)
-        
-        query = """INSERT INTO WOMENSFITNESS (ID, NAME, AGE)
-        VALUES(005, 'VICTORIA SCHARZKOPF', 19)"""
-        cursor.execute(query)
-        
-        query = """INSERT INTO WOMENSFITNESS (ID, NAME, AGE)
-        VALUES(057, 'ELIZABETH SECRET', 20)"""
         cursor.execute(query)
         
         query = """INSERT INTO DIETT (DID, DNAME, DAGE, DIETFROM,DIETSTART)
