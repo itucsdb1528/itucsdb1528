@@ -4,6 +4,7 @@ import os
 import psycopg2 as dbapi2
 import re
 
+from flask import request
 from flask import Flask
 from flask import redirect
 from flask import render_template
@@ -27,26 +28,50 @@ def home():
     now = datetime.datetime.now()
     return render_template('home.html', current_time=now.ctime())
 
-@app.route('/mensfitness') 
+@app.route('/mensfitness', methods=['GET', 'POST']) 
 def mensfitness_page():    
+    
+    if 'menfitness_add' in request.form:
+        ido = request.form['ID']
+        name = request.form['NAME']
+        age = request.form['AGE']
+        height = request.form['HEIGHT']
+        weight = request.form['WEIGHT']
+        favmachine = request.form['FAV_MACHINE']
+        award = request.form['LAST_AWARD']
+        program = request.form['NUT_PROGRAM']
+
+        add_menfitness(ido, name, age, height, weight, favmachine, award, program)
+    
     return render_template('mensfitness.html') 
 
-@app.route('/womensfitness') 
+@app.route('/womensfitness', methods=['GET', 'POST']) 
 def womensfitness_page():
     return render_template('womensfitness.html') 
 
-@app.route('/nutritionprograms') 
+@app.route('/nutritionprograms', methods=['GET', 'POST']) 
 def nutritionprograms_page():
     return render_template('nutritionprograms.html') 
 
-@app.route('/fitnessmachines') 
+@app.route('/fitnessmachines', methods=['GET', 'POST']) 
 def fitnessmachines_page():
     return render_template('fitnessmachines.html') 
 
-@app.route('/fitnessawards') 
+@app.route('/fitnessawards', methods=['GET', 'POST']) 
 def fitnessawards_page():
     return render_template('fitnessawards.html') 
-    
+
+def add_menfitness(ido, name, age, height, weight, favmachine, award, program):
+    with dbapi2.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        
+        cursor.execute("""INSERT INTO MENSFITNESS (ID, NAME, AGE, HEIGHT, WEIGHT, FAV_MACHINE, LAST_AWARD, NUT_PROGRAM)
+        VALUES(%s, %s, %s, %s, %s, 301, 901, 201)""", (ido, name, age, height, weight))
+
+        connection.commit()
+
+        return True
+
 @app.route('/ftypes') 
 def ftypes_page():
     return render_template('ftypes.html')
@@ -66,20 +91,6 @@ def muinf_page():
 @app.route('/ffitnessers') 
 def ffitnessers_page():
     return render_template('ffitnessers.html')
-
-@app.route('/update_values')
-def update_values():
-    with dbapi2.connect(app.config['dsn']) as connection:
-        cursor = connection.cursor()
-        
-        query = """UPDATE MENSFITNESS
-        SET NAME = 'ARNOLD SCHWARZENEGER'
-        WHERE ID = 001"""
-        cursor.execute(query)
-    
-        connection.commit()
-    return redirect(url_for('home'))
-
 
 @app.route('/update_DIETT')
 def update_DIETT():
@@ -176,7 +187,7 @@ def initialize_database():
         (
         ID   INT              NOT NULL,
         NAME VARCHAR (30)     NOT NULL,
-        AGE  INT              NOT NULL,
+        AGE  INT,
         HEIGHT INT,
         WEIGHT INT,
         FAV_MACHINE INT,
@@ -193,7 +204,7 @@ def initialize_database():
         (
         ID   INT              NOT NULL,
         NAME VARCHAR (30)     NOT NULL,
-        AGE  INT              NOT NULL,
+        AGE  INT,
         HEIGHT INT,
         WEIGHT INT,
         FAV_MACHINE INT,

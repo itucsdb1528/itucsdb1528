@@ -10,5 +10,33 @@
 <a href="/">Return to homepage</a>
 <h2>Men's Fitness</h2>
 <h5>Here is the list of Men's Fitness</h5>
+
+<form action="/mensfitness" method="POST">
+	<font size="4" color="red">Add fitnesser</font>
+	<table border="1px">
+		<tr>
+			<td>ID</td>
+			<td>Name</td>
+			<td>Age</td>
+			<td>Height</td>
+			<td>Weight</td>
+			<td>Fav. fitness machine</td>
+			<td>Last award taken</td>
+			<td>Using nutr. program</td>
+		</tr>
+		<tr>
+			<td> <input type="number" name="ID" > </td>
+			<td> <input type="text" name="NAME" > </td>
+			<td> <input type="number" name="AGE" > </td>
+			<td> <input type="number" name="HEIGHT" > </td>
+			<td> <input type="number" name="WEIGHT" > </td>
+			<td> <input type="number" name="FAV_MACHINE" > </td>
+			<td> <input type="number" name="LAST_AWARD" > </td>
+			<td> <input type="number" name="NUT_PROGRAM" > </td>
+		</tr>
+	</table>
+	<input type="submit" name="menfitness_add"value="Add" />
+</form>
+
 </body>
 </html>
