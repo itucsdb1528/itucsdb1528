@@ -11,17 +11,21 @@
 <h2>Nutrition Programs</h2>
 <h5>Here is the list of Nutrition Programs</h5>
 
-<form action="add_nutrition_program.html">
-  <fieldset>
-    <legend>Add a nutrition program:</legend>
-    Program name:<br>
-    <input type="text" name="programname" value="">
-    <br>
-    Calories:<br>
-    <input type="text" name="calories" value="">
-    <br><br>
-    <input type="submit" value="Submit">
-  </fieldset>
+<form action="/nutritionprograms" method="POST">
+	<font size="4" color="red">Add nutrition program</font>
+	<table border="1px">
+		<tr>
+			<td>ID</td>
+			<td>Name</td>
+			<td>Calories</td>
+		</tr>
+		<tr>
+			<td> <input type="number" name="ID" > </td>
+			<td> <input type="text" name="NAME" > </td>
+			<td> <input type="number" name="CALORIES" > </td>
+		</tr>
+	</table>
+	<input type="submit" name="nutritionprograms_add"value="Add" />
 </form>
 
 </body>

@@ -47,18 +47,54 @@ def mensfitness_page():
 
 @app.route('/womensfitness', methods=['GET', 'POST']) 
 def womensfitness_page():
+        
+    if 'womenfitness_add' in request.form:
+        ido = request.form['ID']
+        name = request.form['NAME']
+        age = request.form['AGE']
+        height = request.form['HEIGHT']
+        weight = request.form['WEIGHT']
+        favmachine = request.form['FAV_MACHINE']
+        award = request.form['LAST_AWARD']
+        program = request.form['NUT_PROGRAM']
+
+        add_menfitness(ido, name, age, height, weight, favmachine, award, program)
+    
     return render_template('womensfitness.html') 
 
 @app.route('/nutritionprograms', methods=['GET', 'POST']) 
 def nutritionprograms_page():
+
+    if 'nutritionprograms_add' in request.form:
+        ido = request.form['ID']
+        name = request.form['NAME']
+        calories = request.form['CALORIES']
+
+        add_nutritionprogram(ido, name, calories)
+
     return render_template('nutritionprograms.html') 
 
 @app.route('/fitnessmachines', methods=['GET', 'POST']) 
 def fitnessmachines_page():
+
+    if 'fitnessmachines_add' in request.form:
+        ido = request.form['ID']
+        name = request.form['NAME']
+        working_muscles = request.form['WORKING_MUSCLES']
+
+        add_fitnessmachine(ido, name, working_muscles)    
+
     return render_template('fitnessmachines.html') 
 
 @app.route('/fitnessawards', methods=['GET', 'POST']) 
 def fitnessawards_page():
+    
+    if 'fitnessawards_add' in request.form:
+        ido = request.form['ID']
+        branch = request.form['BRANCH']
+
+        add_fitnessaward(ido, branch) 
+    
     return render_template('fitnessawards.html') 
 
 def add_menfitness(ido, name, age, height, weight, favmachine, award, program):
@@ -71,6 +107,51 @@ def add_menfitness(ido, name, age, height, weight, favmachine, award, program):
         connection.commit()
 
         return True
+    
+def add_womenfitness(ido, name, age, height, weight, favmachine, award, program):
+    with dbapi2.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        
+        cursor.execute("""INSERT INTO WOMENSFITNESS (ID, NAME, AGE, HEIGHT, WEIGHT, FAV_MACHINE, LAST_AWARD, NUT_PROGRAM)
+        VALUES(%s, %s, %s, %s, %s, 302, 902, 202)""", (ido, name, age, height, weight))
+
+        connection.commit()
+
+        return True
+    
+def add_nutritionprogram(ido, name, calories):
+    with dbapi2.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        
+        cursor.execute("""INSERT INTO NUTRITIONPROGRAMS (ID, NAME, CALORIES)
+        VALUES(%s, %s, %s)""", (ido, name, calories))
+
+        connection.commit()
+
+        return True
+    
+def add_fitnessmachine(ido, name, working_muscle):
+    with dbapi2.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        
+        cursor.execute("""INSERT INTO FITNESSMACHINES (ID, NAME, WORKING_MUSCLES)
+        VALUES(%s, %s, %s)""", (ido, name, working_muscle))
+
+        connection.commit()
+
+        return True
+    
+def add_fitnessaward(ido, branch):
+    with dbapi2.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        
+        cursor.execute("""INSERT INTO FITNESSAWARDS (ID, BRANCH)
+        VALUES(%s, %s)""", (ido, branch))
+
+        connection.commit()
+
+        return True
+
 
 @app.route('/ftypes') 
 def ftypes_page():
