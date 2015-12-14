@@ -73,6 +73,30 @@ def mensfitness_page():
     print(menfitnesses)
     return render_template('mensfitness.html', menfitnesser = menfitnesses) 
 
+@app.route('/mensfitnesswithprogram', methods=['GET', 'POST']) 
+def mensfitnesswithprogram_page():    
+    
+    if request.method == 'GET':
+        print("Step 1")
+        menfitnesswithprogram = get_menfitnesswithprogram()
+        
+    print(menfitnesswithprogram)
+    return render_template('menjoinnutprogram.html', menfitnesswthprg = menfitnesswithprogram) 
+
+def get_menfitnesswithprogram():
+    with dbapi2.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        
+        query = """SELECT MEN_NAME, AGE, WEIGHT, HEIGHT, CALORIES FROM MENSFITNESS INNER JOIN NUTRITIONPROGRAMS
+        ON MENSFITNESS.NUT_PROGRAM = NUTRITIONPROGRAMS.ID"""
+        cursor.execute(query)
+        
+        menfitnesswithprogram = cursor.fetchall()
+        
+        connection.commit()
+        
+        return menfitnesswithprogram
+
 @app.route('/womensfitness', methods=['GET', 'POST']) 
 def womensfitness_page():  
         
@@ -223,7 +247,7 @@ def add_menfitness(ido, name, age, height, weight, favmachine, award, program):
     with dbapi2.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
         
-        cursor.execute("""INSERT INTO MENSFITNESS (ID, NAME, AGE, HEIGHT, WEIGHT, FAV_MACHINE, LAST_AWARD, NUT_PROGRAM)
+        cursor.execute("""INSERT INTO MENSFITNESS (ID, MEN_NAME, AGE, HEIGHT, WEIGHT, FAV_MACHINE, LAST_AWARD, NUT_PROGRAM)
         VALUES(%s, %s, %s, %s, %s, %s, %s, %s)""", (ido, name, age, height, weight, favmachine, award, program))
 
         connection.commit()
@@ -256,7 +280,7 @@ def find_menfitness(ido, name, age, height, weight, favmachine, award, program):
     with dbapi2.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
         
-        query = """SELECT * FROM MENSFITNESS WHERE ( CAST(ID AS TEXT) LIKE '{}%') AND (NAME LIKE  '{}%' ) AND ( CAST(AGE AS TEXT) LIKE '{}%') AND ( CAST(HEIGHT AS TEXT) LIKE '{}%') AND ( CAST(WEIGHT AS TEXT) LIKE '{}%') AND ( CAST(FAV_MACHINE AS TEXT) LIKE '{}%') AND ( CAST(LAST_AWARD AS TEXT) LIKE '{}%') AND ( CAST(NUT_PROGRAM AS TEXT) LIKE '{}%')""".format(ido, name, age, height, weight, favmachine, award, program)
+        query = """SELECT * FROM MENSFITNESS WHERE ( CAST(ID AS TEXT) LIKE '{}%') AND (MEN_NAME LIKE  '{}%' ) AND ( CAST(AGE AS TEXT) LIKE '{}%') AND ( CAST(HEIGHT AS TEXT) LIKE '{}%') AND ( CAST(WEIGHT AS TEXT) LIKE '{}%') AND ( CAST(FAV_MACHINE AS TEXT) LIKE '{}%') AND ( CAST(LAST_AWARD AS TEXT) LIKE '{}%') AND ( CAST(NUT_PROGRAM AS TEXT) LIKE '{}%')""".format(ido, name, age, height, weight, favmachine, award, program)
         cursor.execute(query)
         mensfitness = cursor.fetchall()
         
@@ -694,7 +718,7 @@ def initialize_database():
         query = """CREATE TABLE MENSFITNESS
         (
         ID   INT              NOT NULL,
-        NAME VARCHAR (30)     NOT NULL,
+        MEN_NAME VARCHAR (30)     NOT NULL,
         AGE  INT,
         HEIGHT INT,
         WEIGHT INT,
@@ -810,8 +834,8 @@ def initialize_database():
         VALUES(902, 'RUNNING')"""
         cursor.execute(query)
         
-        query = """INSERT INTO MENSFITNESS (ID, NAME, AGE, FAV_MACHINE, LAST_AWARD, NUT_PROGRAM)
-        VALUES(001, 'GEORGE ARNOLD', 22, 301, 901, 201)"""
+        query = """INSERT INTO MENSFITNESS (ID, MEN_NAME, AGE, WEIGHT, HEIGHT, FAV_MACHINE, LAST_AWARD, NUT_PROGRAM)
+        VALUES(001, 'GEORGE ARNOLD', 75, 180, 22, 301, 901, 201)"""
         cursor.execute(query)
         
         query = """INSERT INTO WOMENSFITNESS (ID, NAME, AGE, FAV_MACHINE, LAST_AWARD, NUT_PROGRAM)

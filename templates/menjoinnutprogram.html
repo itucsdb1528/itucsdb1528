@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Men's Fitness</title>
+<link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+<img src="https://cdn0.iconfinder.com/data/icons/16x16-free-toolbar-icons/16/56.png"/>
+<a href="/">Return to homepage</a>
+<h2>Men's Fitness joins Nutrition programs</h2>
+<h5>Here is the list of Men's Fitnesser with their using nutrition programs</h5>
+
+	<br><br><br>
+	<font size="3" color="red">Matches</font>
+	<table border="1px">
+		<tr>
+			<th>Name</th>
+			<th>Age</th>
+			<th>Weight</th>
+			<th>Height</th>
+			<th>Calories</th>
+		</tr>
+		{% for menfitness in menfitnesswthprg %}
+		<tr>
+			<td>{{menfitness[0]}}</td>
+			<td>{{menfitness[1]}}</td>
+			<td>{{menfitness[2]}}</td>
+			<td>{{menfitness[3]}}</td>
+			<td>{{menfitness[4]}}</td>
+		</tr>
+		{% endfor %}
+	</table>
+
+
+</body>
+</html>
