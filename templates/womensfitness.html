@@ -43,8 +43,40 @@
 </br></br>
 <font size="1" color="red">Example ID's from initial database</font></br>
 <font size="1" color="black">301 -> Fav. Fitness Machine</br>901 -> Last Award Taken</br>201 -> Using nutr. program</font>
-
+	
+	<br><br>
+	<font size="3" color="red">Delete ID<br></font>
+	<input type="number" name="deleted_id" >
+	<input type="submit" name="delete_id"value="Delete" />
+	
 	<br><br><br>
+	<font size="4" color="red">Find fitnesser</font>
+	<table border="1px">
+		<tr>
+			<td>ID</td>
+			<td>Name</td>
+			<td>Age</td>
+			<td>Height</td>
+			<td>Weight</td>
+			<td>Fav. fitness machine</td>
+			<td>Last award taken</td>
+			<td>Using nutr. program</td>
+		</tr>
+		<tr>
+			<td> <input type="number" name="FIND_ID" > </td>
+			<td> <input type="text" name="FIND_NAME" > </td>
+			<td> <input type="number" name="FIND_AGE" > </td>
+			<td> <input type="number" name="FIND_HEIGHT" > </td>
+			<td> <input type="number" name="FIND_WEIGHT" > </td>
+			<td> <input type="number" name="FIND_FAV_MACHINE" > </td>
+			<td> <input type="number" name="FIND_LAST_AWARD" > </td>
+			<td> <input type="number" name="FIND_NUT_PROGRAM" > </td>
+		</tr>
+	</table>
+	<input type="submit" name="womenfitness_find"value="Search" />
+	<input type="submit" name="womenfitness_find_all"value="Show All" />
+	
+		<br><br><br>
 	<font size="3" color="red">Inside database:</font>
 	<table border="1px">
 		<tr>
@@ -70,11 +102,6 @@
 		</tr>
 		{% endfor %}
 	</table>
-	
-	<br><br>
-	<font size="3" color="red">Delete ID<br></font>
-	<input type="number" name="deleted_id" >
-	<input type="submit" name="delete_id"value="Delete" />
 </form>
 
 </body>

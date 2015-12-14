@@ -27,6 +27,36 @@
 		</tr>
 	</table>
 	<input type="submit" name="fdiet_add"value="Add" />
+	
+	<br>	<br>	<br>
+	<font size="4" color="red">Fitness Diet Table</font>
+	<table border="1ppx">
+		<tr>
+			<th>Diet ID</th>
+			<th>Diet Name</th>
+			<th>Diet Age</th>
+			<th>Diet From</th>
+			<th>Diet Start </th>
+			
+		</tr>
+		{% for fdiet in fdieter %}
+		<tr>
+			<td>{{fdiet[0]}}</td>
+			<td>{{fdiet[1]}}</td>
+			<td>{{fdiet[2]}}</td>
+			<td>{{fdiet[3]}}</td>
+			<td>{{fdiet[4]}}</td>
+			<td>{{fdiet[5]}}</td>
+			
+		</tr>
+		{% endfor %}
+	</table>
+	<br><br>
+	<font size="3" color="red">Delete ID<br></font>
+	<input type="number" name="deleted_id" >
+	<input type="submit" name="delete_id"value="Delete" />
+	
+</form>
 </form>
 
 <footer>

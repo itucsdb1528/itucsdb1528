@@ -24,8 +24,28 @@
 		</tr>
 	</table>
 	<input type="submit" name="fitnessawards_add"value="Add" />
-
+	
 	<br><br><br>
+	<font size="4" color="red">Find fitness award</font>
+	<table border="1px">
+		<tr>
+			<td>ID</td>
+			<td>Branch</td>
+		</tr>
+		<tr>
+			<td> <input type="number" name="FIND_ID" > </td>
+			<td> <input type="text" name="FIND_BRANCH" > </td>
+		</tr>
+	</table>
+	<input type="submit" name="fitnessaward_find"value="Search" />
+	<input type="submit" name="fitnessaward_find_all"value="Show All" />
+	
+	<br><br>
+	<font size="3" color="red">Delete ID<br></font>
+	<input type="number" name="deleted_id" >
+	<input type="submit" name="delete_id"value="Delete" />
+	
+		<br><br><br>
 	<font size="3" color="red">Inside database:</font>
 	<table border="1px">
 		<tr>
@@ -39,11 +59,6 @@
 		</tr>
 		{% endfor %}
 	</table>
-	
-	<br><br>
-	<font size="3" color="red">Delete ID<br></font>
-	<input type="number" name="deleted_id" >
-	<input type="submit" name="delete_id"value="Delete" />
 </form>
 
 </body>

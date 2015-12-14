@@ -76,7 +76,10 @@ def mensfitness_page():
 @app.route('/womensfitness', methods=['GET', 'POST']) 
 def womensfitness_page():  
         
-    if 'womenfitness_add' in request.form:
+    if request.method == 'GET':
+        womenfitnesses = get_womenfitness()
+        
+    elif 'womenfitness_add' in request.form:
         ido = request.form['ID']
         name = request.form['NAME']
         age = request.form['AGE']
@@ -88,66 +91,132 @@ def womensfitness_page():
 
         add_womenfitness(ido, name, age, height, weight, favmachine, award, program)
         
+        womenfitnesses = get_womenfitness()
+        
     elif 'delete_id' in request.form:
         delete_id = request.form['deleted_id']
         
         delete_womenfitness(delete_id)
         
-    womenfitnesses = get_womenfitness()
+        womenfitnesses = get_womenfitness()
+        
+    elif 'womenfitness_find' in request.form:
+        ido = request.form['FIND_ID']
+        name = request.form['FIND_NAME']
+        age = request.form['FIND_AGE']
+        height = request.form['FIND_HEIGHT']
+        weight = request.form['FIND_WEIGHT']
+        favmachine = request.form['FIND_FAV_MACHINE']
+        award = request.form['FIND_LAST_AWARD']
+        program = request.form['FIND_NUT_PROGRAM']
+        
+        womenfitnesses = find_womenfitness(ido, name, age, height, weight, favmachine, award, program)
+        
+    elif 'womenfitness_find_all' in request.form:
+        womenfitnesses = get_womenfitness()
+        
     print(womenfitnesses)
     return render_template('womensfitness.html', womenfitnesser = womenfitnesses) 
 
 @app.route('/nutritionprograms', methods=['GET', 'POST']) 
 def nutritionprograms_page():
+    
+    if request.method == 'GET':
+        nutritionprogram = get_nutritionprogram()
 
-    if 'nutritionprograms_add' in request.form:
+    elif 'nutritionprograms_add' in request.form:
         ido = request.form['ID']
         name = request.form['NAME']
         calories = request.form['CALORIES']
 
         add_nutritionprogram(ido, name, calories)
         
+        nutritionprogram = get_nutritionprogram()
+        
     elif 'delete_id' in request.form:
         delete_id = request.form['deleted_id']
         
         delete_nutritionprogram(delete_id)
         
-    nutritionprogram = get_nutritionprogram()
+        nutritionprogram = get_nutritionprogram()
+        
+    elif 'nutritionprogram_find' in request.form:
+        ido = request.form['FIND_ID']
+        name = request.form['FIND_NAME']
+        calory = request.form['FIND_CALORIES']
+        
+        nutritionprogram = find_nutritionprogram(ido, name, calory)
+        
+    elif 'nutritionprogram_find_all' in request.form:
+        nutritionprogram = get_nutritionprogram()
+            
     return render_template('nutritionprograms.html', nutritionprograms = nutritionprogram) 
 
 @app.route('/fitnessmachines', methods=['GET', 'POST']) 
 def fitnessmachines_page():
+    
+    if request.method == 'GET':
+        fitnessmachine = get_fitnessmachine()  
 
-    if 'fitnessmachines_add' in request.form:
+    elif 'fitnessmachines_add' in request.form:
         ido = request.form['ID']
         name = request.form['NAME']
         working_muscles = request.form['WORKING_MUSCLES']
 
         add_fitnessmachine(ido, name, working_muscles)
         
+        fitnessmachine = get_fitnessmachine()  
+        
     elif 'delete_id' in request.form:
         delete_id = request.form['deleted_id']
         
         delete_fitnessmachine(delete_id)
         
-    fitnessmachine = get_fitnessmachine()    
+        fitnessmachine = get_fitnessmachine()  
+        
+    elif 'fitnessmachines_find' in request.form:
+        ido = request.form['FIND_ID']
+        name = request.form['FIND_NAME']
+        working_muscles = request.form['FIND_WORKING_MUSCLES']
+        
+        fitnessmachine = find_fitnessmachine(ido, name, working_muscles)
+        
+    elif 'fitnessmachines_find_all' in request.form:
+        fitnessmachine = get_fitnessmachine()
+          
     return render_template('fitnessmachines.html', fitnessmachines = fitnessmachine) 
 
 @app.route('/fitnessawards', methods=['GET', 'POST']) 
 def fitnessawards_page():
     
-    if 'fitnessawards_add' in request.form:
+    if request.method == 'GET':
+        fitnessaward = get_fitnessaward()
+    
+    elif 'fitnessawards_add' in request.form:
         ido = request.form['ID']
         branch = request.form['BRANCH']
 
         add_fitnessaward(ido, branch) 
         
+        fitnessaward = get_fitnessaward()
+        
     elif 'delete_id' in request.form:
         delete_id = request.form['deleted_id']
         
         delete_fitnessaward(delete_id)
+        
+        fitnessaward = get_fitnessaward()
+        
+    elif 'fitnessaward_find' in request.form:
+        ido = request.form['FIND_ID']
+        branch = request.form['FIND_BRANCH']
+        
+        fitnessaward = find_fitnessaward(ido, branch)
+        
+    elif 'fitnessaward_find_all' in request.form:
+        fitnessaward = get_fitnessaward()
     
-    fitnessaward = get_fitnessaward()    
+        
     return render_template('fitnessawards.html', fitnessawards = fitnessaward) 
 
 def add_menfitness(ido, name, age, height, weight, favmachine, award, program):
@@ -228,6 +297,18 @@ def delete_womenfitness(ido):
         
         return True
     
+def find_womenfitness(ido, name, age, height, weight, favmachine, award, program):
+    with dbapi2.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        
+        query = """SELECT * FROM WOMENSFITNESS WHERE ( CAST(ID AS TEXT) LIKE '{}%') AND (NAME LIKE  '{}%' ) AND ( CAST(AGE AS TEXT) LIKE '{}%') AND ( CAST(HEIGHT AS TEXT) LIKE '{}%') AND ( CAST(WEIGHT AS TEXT) LIKE '{}%') AND ( CAST(FAV_MACHINE AS TEXT) LIKE '{}%') AND ( CAST(LAST_AWARD AS TEXT) LIKE '{}%') AND ( CAST(NUT_PROGRAM AS TEXT) LIKE '{}%')""".format(ido, name, age, height, weight, favmachine, award, program)
+        cursor.execute(query)
+        womensfitness = cursor.fetchall()
+        
+        connection.commit()
+        
+        return womensfitness
+    
 def add_nutritionprogram(ido, name, calories):
     with dbapi2.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
@@ -260,6 +341,18 @@ def delete_nutritionprogram(ido):
         connection.commit()
         
         return True
+    
+def find_nutritionprogram(ido, name, calories):
+    with dbapi2.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        
+        query = """SELECT * FROM NUTRITIONPROGRAMS WHERE ( CAST(ID AS TEXT) LIKE '{}%') AND (NAME LIKE  '{}%' ) AND ( CAST(CALORIES AS TEXT) LIKE '{}%')""".format(ido, name, calories)
+        cursor.execute(query)
+        nutritionprogram = cursor.fetchall()
+        
+        connection.commit()
+        
+        return nutritionprogram
     
 def add_fitnessmachine(ido, name, working_muscle):
     with dbapi2.connect(app.config['dsn']) as connection:
@@ -294,6 +387,18 @@ def delete_fitnessmachine(ido):
         
         return True
     
+def find_fitnessmachine(ido, name, working_muscles):
+    with dbapi2.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        
+        query = """SELECT * FROM FITNESSMACHINES WHERE ( CAST(ID AS TEXT) LIKE '{}%') AND (NAME LIKE  '{}%' ) AND ( WORKING_MUSCLES LIKE '{}%')""".format(ido, name, working_muscles)
+        cursor.execute(query)
+        fitnessmachine = cursor.fetchall()
+        
+        connection.commit()
+        
+        return fitnessmachine
+    
 def add_fitnessaward(ido, branch):
     with dbapi2.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
@@ -326,6 +431,18 @@ def delete_fitnessaward(ido):
         connection.commit()
         
         return True
+    
+def find_fitnessaward(ido, branch):
+    with dbapi2.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        
+        query = """SELECT * FROM FITNESSAWARDS WHERE ( CAST(ID AS TEXT) LIKE '{}%') AND (BRANCH LIKE  '{}%' )""".format(ido, branch)
+        cursor.execute(query)
+        fitnessaward = cursor.fetchall()
+        
+        connection.commit()
+        
+        return fitnessaward
 
 @app.route('/ftypes') 
 def ftypes_page():
@@ -346,8 +463,15 @@ def fdiet_page():
         dstart = request.form['DIETSTART']
 
         add_fdiet(ido, name, age, dfrom, dstart)
+    elif 'delete_id' in request.form:
+        delete_id = request.form['deleted_id']
+        
+        delete_fdiet(delete_id)
+        
+    fdiet = get_fdiet()
+    print(fdiet)
+    return render_template('fdiet.html', fdieter = fdiet) 
     
-    return render_template('fdiet.html') 
 
 def add_fdiet(ido, name, age, dfrom, dstart):
      with dbapi2.connect(app.config['dsn']) as connection:
@@ -359,6 +483,28 @@ def add_fdiet(ido, name, age, dfrom, dstart):
          connection.commit()
          
          return True
+     
+def get_fdiet():
+    with dbapi2.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        
+        cursor.execute("SELECT * FROM DIETT")
+        menfitness = cursor.fetchall()
+        
+        connection.commit()
+        
+        return menfitness
+    
+def delete_fdiet(ido):
+    with dbapi2.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        
+        query = """DELETE FROM DIETT WHERE DID={}""".format(ido)
+        cursor.execute(query)
+        
+        connection.commit()
+        
+        return True
 
 @app.route('/muinf') 
 def muinf_page():
