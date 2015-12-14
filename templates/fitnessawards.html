@@ -26,5 +26,19 @@
 	<input type="submit" name="fitnessawards_add"value="Add" />
 </form>
 
+	<br><br><br>
+	<table border="1px">
+		<tr>
+			<th>ID</th>
+			<th>Branch</th>
+		</tr>
+		{% for fitnessaward in fitnessawards %}
+		<tr>
+			<td>{{fitnessaward[0]}}</td>
+			<td>{{fitnessaward[1]}}</td>
+		</tr>
+		{% endfor %}
+	</table>
+
 </body>
 </html>

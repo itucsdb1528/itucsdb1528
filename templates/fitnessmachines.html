@@ -28,5 +28,21 @@
 	<input type="submit" name="fitnessmachines_add"value="Add" />
 </form>
 
+	<br><br><br>
+	<table border="1px">
+		<tr>
+			<th>ID</th>
+			<th>Name</th>
+			<th>Working Muscles</th>
+		</tr>
+		{% for fitnessmachine in fitnessmachines %}
+		<tr>
+			<td>{{fitnessmachine[0]}}</td>
+			<td>{{fitnessmachine[1]}}</td>
+			<td>{{fitnessmachine[2]}}</td>
+		</tr>
+		{% endfor %}
+	</table>
+
 </body>
 </html>

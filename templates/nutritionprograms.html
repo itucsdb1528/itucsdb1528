@@ -28,5 +28,21 @@
 	<input type="submit" name="nutritionprograms_add"value="Add" />
 </form>
 
+	<br><br><br>
+	<table border="1px">
+		<tr>
+			<th>ID</th>
+			<th>Name</th>
+			<th>Calories</th>
+		</tr>
+		{% for nutritionprogram in nutritionprograms %}
+		<tr>
+			<td>{{nutritionprogram[0]}}</td>
+			<td>{{nutritionprogram[1]}}</td>
+			<td>{{nutritionprogram[2]}}</td>
+		</tr>
+		{% endfor %}
+	</table>
+
 </body>
 </html>

@@ -54,6 +54,9 @@ def mensfitness_page():
 @app.route('/womensfitness', methods=['GET', 'POST']) 
 def womensfitness_page():
         
+    if request.method == 'GET':
+        womenfitnesses = get_womenfitness()    
+        
     if 'womenfitness_add' in request.form:
         ido = request.form['ID']
         name = request.form['NAME']
@@ -65,11 +68,16 @@ def womensfitness_page():
         program = request.form['NUT_PROGRAM']
 
         add_menfitness(ido, name, age, height, weight, favmachine, award, program)
+        
+        womenfitnesses = get_womenfitness()
     
-    return render_template('womensfitness.html') 
+    return render_template('womensfitness.html', womenfitnesser = womenfitnesses) 
 
 @app.route('/nutritionprograms', methods=['GET', 'POST']) 
 def nutritionprograms_page():
+
+    if request.method == 'GET':
+        nutritionprogram = get_nutritionprogram()
 
     if 'nutritionprograms_add' in request.form:
         ido = request.form['ID']
@@ -77,23 +85,33 @@ def nutritionprograms_page():
         calories = request.form['CALORIES']
 
         add_nutritionprogram(ido, name, calories)
+        
+        nutritionprogram = get_nutritionprogram()
 
-    return render_template('nutritionprograms.html') 
+    return render_template('nutritionprograms.html', nutritionprograms = nutritionprogram) 
 
 @app.route('/fitnessmachines', methods=['GET', 'POST']) 
 def fitnessmachines_page():
+
+    if request.method == 'GET':
+        fitnessmachine = get_fitnessmachine()
 
     if 'fitnessmachines_add' in request.form:
         ido = request.form['ID']
         name = request.form['NAME']
         working_muscles = request.form['WORKING_MUSCLES']
 
-        add_fitnessmachine(ido, name, working_muscles)    
+        add_fitnessmachine(ido, name, working_muscles)
+        
+        fitnessmachine = get_fitnessmachine()    
 
-    return render_template('fitnessmachines.html') 
+    return render_template('fitnessmachines.html', fitnessmachines = fitnessmachine) 
 
 @app.route('/fitnessawards', methods=['GET', 'POST']) 
 def fitnessawards_page():
+    
+    if request.method == 'GET':
+        fitnessaward = get_fitnessaward()
     
     if 'fitnessawards_add' in request.form:
         ido = request.form['ID']
@@ -101,7 +119,9 @@ def fitnessawards_page():
 
         add_fitnessaward(ido, branch) 
     
-    return render_template('fitnessawards.html') 
+        fitnessaward = get_fitnessaward()
+        
+    return render_template('fitnessawards.html', fitnessawards = fitnessaward) 
 
 def add_menfitness(ido, name, age, height, weight, favmachine, award, program):
     with dbapi2.connect(app.config['dsn']) as connection:
@@ -163,11 +183,11 @@ def get_nutritionprogram():
         cursor = connection.cursor()
         
         cursor.execute("SELECT * FROM NUTRITIONPROGRAMS")
-        nutritionprograms = cursor.fetchall()
+        nutritionprogram = cursor.fetchall()
         
         connection.commit()
         
-        return nutritionprograms
+        return nutritionprogram
     
 def add_fitnessmachine(ido, name, working_muscle):
     with dbapi2.connect(app.config['dsn']) as connection:
