@@ -508,7 +508,8 @@ def ftypes_page():
     
 
 def add_ftypes(ido, diet,name, age, fees):
-     with dbapi2.connect(app.config['dsn']) as connection:
+     
+    with dbapi2.connect(app.config['dsn']) as connection:
          cursor = connection.cursor()
          
          cursor.execute("""INSERT INTO FITNESSTYPES (FTID, RECOMMENDED_DIET, FTNAME, FTAGE, FTFEES)
@@ -554,8 +555,11 @@ def find_ftypes(ido, diet,name, age, fees):
 
 @app.route('/frecords', methods=['GET', 'POST']) 
 def frecords_page():    
+    if request.method == 'GET':
+        frecords = get_frecords()
+        
     
-    if 'frecords_add' in request.form:
+    elif 'frecords_add' in request.form:
         ido = request.form['RCID']
         name = request.form['WNAME']
         kg = request.form['RKG']
@@ -609,8 +613,10 @@ def delete_frecords(ido):
 
 @app.route('/fdiet', methods=['GET', 'POST']) 
 def fdiet_page():    
-    
-    if 'fdiet_add' in request.form:
+    if request.method == 'GET':
+        fdiet = get_fdiet()
+        
+    elif 'fdiet_add' in request.form:
         ido = request.form['DID']
         name = request.form['DNAME']
         age = request.form['DAGE']
@@ -618,12 +624,13 @@ def fdiet_page():
         dstart = request.form['DIETSTART']
 
         add_fdiet(ido, name, age, dfrom, dstart)
+        fdiet = get_fdiet()
     elif 'delete_id' in request.form:
         delete_id = request.form['deleted_id']
         
         delete_fdiet(delete_id)
         
-    fdiet = get_fdiet()
+        fdiet = get_fdiet()
     print(fdiet)
     return render_template('fdiet.html', fdieter = fdiet) 
     
@@ -664,12 +671,15 @@ def delete_fdiet(ido):
 
 @app.route('/muinf', methods=['GET', 'POST']) 
 def muinf_page():    
-    
-    if 'muinf_add' in request.form:
+    if request.method == 'GET':
+        muinf = get_muinf()
+        
+    elif 'muinf_add' in request.form:
         ido = request.form['MDID']
         name = request.form['MDNAME']
     
         add_muinf(ido, name)
+        muinf = get_muinf()
     elif 'delete_id' in request.form:
         delete_id = request.form['deleted_id']
         
@@ -715,8 +725,10 @@ def delete_muinf(ido):
 
 @app.route('/ffitnessers', methods=['GET', 'POST']) 
 def ffitnessers_page():    
-    
-    if 'ffitnessers_add' in request.form:
+    if request.method == 'GET':
+        ffitnessers = get_ffitnessers()
+        
+    elif 'ffitnessers_add' in request.form:
         ido = request.form['FAMID']
         name = request.form['FNAME']
         t = request.form['FTYPEID']
@@ -724,6 +736,8 @@ def ffitnessers_page():
        
 
         add_ffitnessers(ido, name, t, rno)
+        ffitnessers = get_ffitnessers()
+        
     elif 'delete_id' in request.form:
         delete_id = request.form['deleted_id']
         
