@@ -36,7 +36,7 @@
 		</tr>
 	</table>
 	<input type="submit" name="menfitness_add"value="Add" />
-</form>
+
 
 </br>
 <font size="1" color="gray"><b>Note :</b></font>
@@ -45,5 +45,31 @@
 <font size="1" color="red">Example ID's from initial database</font></br>
 <font size="1" color="black">201 -> Fav. Fitness Machine</br>901 -> Last Award Taken</br>301 -> Using nutr. program</font>
 
+	<br><br><br>
+	<table border="1px">
+		<tr>
+			<th>ID</th>
+			<th>Name</th>
+			<th>Age</th>
+			<th>Height</th>
+			<th>Weight</th>
+			<th>Fav. fitness machine</th>
+			<th>Last award taken</th>
+			<th>Using nutr. program</th>
+		</tr>
+		{% for menfitness in menfitnesser %}
+		<tr>
+			<td>{{menfitness[0]}}</td>
+			<td>{{menfitness[1]}}</td>
+			<td>{{menfitness[2]}}</td>
+			<td>{{menfitness[3]}}</td>
+			<td>{{menfitness[4]}}</td>
+			<td>{{menfitness[5]}}</td>
+			<td>{{menfitness[6]}}</td>
+			<td>{{menfitness[7]}}</td>
+		</tr>
+		{% endfor %}
+	</table>
+</form>
 </body>
 </html>

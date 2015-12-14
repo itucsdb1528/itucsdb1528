@@ -31,6 +31,9 @@ def home():
 @app.route('/mensfitness', methods=['GET', 'POST']) 
 def mensfitness_page():    
     
+    if request.method == 'GET':
+        menfitnesses = get_menfitness()
+    
     if 'menfitness_add' in request.form:
         ido = request.form['ID']
         name = request.form['NAME']
@@ -42,8 +45,11 @@ def mensfitness_page():
         program = request.form['NUT_PROGRAM']
 
         add_menfitness(ido, name, age, height, weight, favmachine, award, program)
+        
+        menfitnesses = get_menfitness()
     
-    return render_template('mensfitness.html') 
+    print(menfitnesses)
+    return render_template('mensfitness.html', menfitnesser = menfitnesses) 
 
 @app.route('/womensfitness', methods=['GET', 'POST']) 
 def womensfitness_page():
@@ -108,6 +114,17 @@ def add_menfitness(ido, name, age, height, weight, favmachine, award, program):
 
         return True
     
+def get_menfitness():
+    with dbapi2.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        
+        cursor.execute("SELECT * FROM MENSFITNESS")
+        menfitness = cursor.fetchall()
+        
+        connection.commit()
+        
+        return menfitness
+    
 def add_womenfitness(ido, name, age, height, weight, favmachine, award, program):
     with dbapi2.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
@@ -118,6 +135,17 @@ def add_womenfitness(ido, name, age, height, weight, favmachine, award, program)
         connection.commit()
 
         return True
+    
+def get_womenfitness():
+    with dbapi2.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        
+        cursor.execute("SELECT * FROM WOMENSFITNESS")
+        womenfitness = cursor.fetchall()
+        
+        connection.commit()
+        
+        return womenfitness
     
 def add_nutritionprogram(ido, name, calories):
     with dbapi2.connect(app.config['dsn']) as connection:
@@ -130,6 +158,17 @@ def add_nutritionprogram(ido, name, calories):
 
         return True
     
+def get_nutritionprogram():
+    with dbapi2.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        
+        cursor.execute("SELECT * FROM NUTRITIONPROGRAMS")
+        nutritionprograms = cursor.fetchall()
+        
+        connection.commit()
+        
+        return nutritionprograms
+    
 def add_fitnessmachine(ido, name, working_muscle):
     with dbapi2.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
@@ -140,6 +179,17 @@ def add_fitnessmachine(ido, name, working_muscle):
         connection.commit()
 
         return True
+    
+def get_fitnessmachine():
+    with dbapi2.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        
+        cursor.execute("SELECT * FROM FITNESSMACHINES")
+        fitnessmachine = cursor.fetchall()
+        
+        connection.commit()
+        
+        return fitnessmachine
     
 def add_fitnessaward(ido, branch):
     with dbapi2.connect(app.config['dsn']) as connection:
@@ -152,16 +202,16 @@ def add_fitnessaward(ido, branch):
 
         return True
 
-def add_fdiet(ido, branch):
+def get_fitnessaward():
     with dbapi2.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
         
-        cursor.execute("""INSERT INTO DIETT (DID, DNAME, DAGE, DIETFROM, DIETSTART)
-        VALUES(%s, %s, %s, %s, %s)""", (ido, name, age, dfrom, dstart))
-
+        cursor.execute("SELECT * FROM FITNESSAWARDS")
+        fitnessaward = cursor.fetchall()
+        
         connection.commit()
-
-        return True
+        
+        return fitnessaward
 
 @app.route('/ftypes') 
 def ftypes_page():
@@ -171,20 +221,9 @@ def ftypes_page():
 def frecords_page():
     return render_template('frecords.html')
 
-@app.route('/fdiet', methods=['GET', 'POST']) 
-def fdiet_page():    
-    
-    if 'fdiet_add' in request.form:
-        ido = request.form['DID']
-        name = request.form['DNAME']
-        age = request.form['DAGE']
-        height = request.form['DIETFROM']
-        weight = request.form['DIETSTART']
-    
-
-        add_fdiet(ido, name, age, dfrom, dstart)
-    
-    return render_template('fdiet.html') 
+@app.route('/fdiet') 
+def fdiet_page():
+    return render_template('fdiet.html')
 
 @app.route('/muinf') 
 def muinf_page():
