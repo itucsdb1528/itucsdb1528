@@ -474,12 +474,51 @@ def initialize_database():
         
         query = """CREATE TABLE FITNESSTYPES
         (
-        FTID   INT              NOT NULL ,
+        FTID   INT              NOT NULL,
         RECOMMENDED_DIET INT,
         FTNAME VARCHAR (30),
         FTAGE  INT,
-        FTFEES   DECIMAL (18, 2),       
+        FTFEES   DECIMAL (18, 2),
+        PRIMARY KEY (FTID),       
         FOREIGN KEY (RECOMMENDED_DIET) REFERENCES DIETT (DID)
+        )"""
+        cursor.execute(query)
+        
+        query = """DROP TABLE IF EXISTS FAMFITNESSERS CASCADE"""
+        cursor.execute(query)
+        
+        query = """DROP TABLE IF EXISTS FITNESSMD CASCADE"""
+        cursor.execute(query)
+        
+        query = """DROP TABLE IF EXISTS FITNESSRECORDS CASCADE"""
+        cursor.execute(query)
+        
+        query = """CREATE TABLE FITNESSRECORDS
+        (
+        RCID   INT              NOT NULL,
+        WNAME VARCHAR (30)     ,
+        RKG VARCHAR (50)  ,
+        PRIMARY KEY (RCID)
+        )"""
+        cursor.execute(query)
+        
+        query = """CREATE TABLE FITNESSMD
+        (
+        MDID   INT              NOT NULL,
+        MDNAME VARCHAR (30)    ,
+        PRIMARY KEY (MDID)
+        )"""
+        cursor.execute(query)
+        
+        query = """CREATE TABLE FAMFITNESSERS
+        (
+        FAMID   INT              NOT NULL,
+        FNAME VARCHAR (30)   ,
+        FTYPEID INT,
+        RECORDNO INT,
+        PRIMARY KEY (FAMID), 
+        FOREIGN KEY (FTYPEID) REFERENCES FITNESSTYPES(FTID),
+        FOREIGN KEY (RECORDNO) REFERENCES FITNESSRECORDS(RCID)
         )"""
         cursor.execute(query)
         
