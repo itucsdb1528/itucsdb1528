@@ -468,24 +468,42 @@ def find_fitnessaward(ido, branch):
         
         return fitnessaward
 
+
+
 @app.route('/ftypes', methods=['GET', 'POST']) 
 def ftypes_page():    
     
-    if 'ftypes_add' in request.form:
+    if request.method == 'GET':
+        ftypes = get_ftypes()  
+        
+    elif 'ftypes_add' in request.form:
         ido = request.form['FTID']
         diet = request.form['RECOMMENDED_DIET']
         name = request.form['FTNAME']
         age = request.form['FTAGE']
         fees = request.form['FTFEES']
-
+        
         add_fdiet(ido, diet,name, age, fees)
-    elif 'delete_ftypes' in request.form:
+        ftypes = get_ftypes()
+    elif 'delete_id' in request.form:
         delete_id = request.form['deleted_id']
         
         delete_fdiet(delete_id)
         
-    ftypes = get_ftypes()
-    print(ftypes)
+        ftypes = get_ftypes()
+        
+    elif 'ftypes_find' in request.form:
+        ido = request.form['FTID']
+        diet = request.form['RECOMMENDED_DIET']
+        name = request.form['FTNAME']
+        age = request.form['FTAGE']
+        fees = request.form['FTFEES']
+        
+        ftypes = find_ftypes(ido, diet,name, age, fees)
+        
+    elif 'ftypes_find_all' in request.form:
+        ftypes = get_ftypes()
+    
     return render_template('ftypes.html', ftypeser = ftypes) 
     
 
@@ -521,6 +539,18 @@ def delete_ftypes(ido):
         connection.commit()
         
         return True
+    
+def find_ftypes(ido, diet,name, age, fees):
+    with dbapi2.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        
+        query = """SELECT * FROM FITNESSTYPES WHERE ( CAST(FTID AS TEXT) LIKE '{}%') AND (RECOMMENDED_DIET LIKE  '{}%' ) AND ( CAST(FTNAME AS TEXT) LIKE '{}%') AND ( CAST(FTAGE AS TEXT) LIKE '{}%') AND ( CAST(FTFEES AS TEXT) LIKE'{}%')""".format(ido, diet,name, age, fees)
+        cursor.execute(query)
+        ftypes = cursor.fetchall()
+        
+        connection.commit()
+        
+        return ftypes
 
 @app.route('/frecords', methods=['GET', 'POST']) 
 def frecords_page():    
@@ -531,8 +561,10 @@ def frecords_page():
         kg = request.form['RKG']
         
         add_frecords(ido, name, kg)
-    elif 'delete_frecords' in request.form:
-        delete_id = request.form['delete_rid']
+        frecords = get_frecords()
+        
+    elif 'delete_id' in request.form:
+        delete_id = request.form['deleted_id']
         
         delete_frecords(delete_id)
         
@@ -638,7 +670,7 @@ def muinf_page():
         name = request.form['MDNAME']
     
         add_muinf(ido, name)
-    elif 'delete_muinf' in request.form:
+    elif 'delete_id' in request.form:
         delete_id = request.form['deleted_id']
         
         delete_muinf(delete_id)
@@ -692,7 +724,7 @@ def ffitnessers_page():
        
 
         add_ffitnessers(ido, name, t, rno)
-    elif 'delete_ffitnessers' in request.form:
+    elif 'delete_id' in request.form:
         delete_id = request.form['deleted_id']
         
         delete_ffitnessers(delete_id)
@@ -788,6 +820,15 @@ def initialize_database():
         query = """DROP TABLE IF EXISTS FITNESSTYPES CASCADE"""
         cursor.execute(query)
         
+        query = """DROP TABLE IF EXISTS FAMFITNESSERS CASCADE"""
+        cursor.execute(query)
+        
+        query = """DROP TABLE IF EXISTS FITNESSMD CASCADE"""
+        cursor.execute(query)
+        
+        query = """DROP TABLE IF EXISTS FITNESSRECORDS CASCADE"""
+        cursor.execute(query)
+        
         query = """CREATE TABLE NUTRITIONPROGRAMS
         (
         ID   INT              NOT NULL,
@@ -871,14 +912,7 @@ def initialize_database():
         )"""
         cursor.execute(query)
         
-        query = """DROP TABLE IF EXISTS FAMFITNESSERS CASCADE"""
-        cursor.execute(query)
         
-        query = """DROP TABLE IF EXISTS FITNESSMD CASCADE"""
-        cursor.execute(query)
-        
-        query = """DROP TABLE IF EXISTS FITNESSRECORDS CASCADE"""
-        cursor.execute(query)
         
         query = """CREATE TABLE FITNESSRECORDS
         (
@@ -957,11 +991,6 @@ def initialize_database():
         VALUES(2000, 'GEORGE CLONI', 32, 'SUGAR','2 FEB' )"""
         cursor.execute(query)
         
-        query = """SELECT * FROM DIETT"""
-        cursor.execute(query)
-      
-        query = """SELECT * FROM FITNESSTYPES"""
-        cursor.execute(query)
         
         connection.commit()
         

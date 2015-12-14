@@ -17,15 +17,15 @@
 			<tr>
 			<td>M ID</td>
 			<td>M Name</td>
-	
+
 		</tr>
 		<tr>
 			<td> <input type="number" name="MDID" > </td>
 			<td> <input type="text" name="MDNAME" > </td>
-			
+
 		</tr>
 	</table>
-	<input type="submit" name="muinf_add"value="Add  />
+	<input type="submit" name="muinf_add"value="Add"  />
 
 	<br><br><br>
 	<font size="4" color="red">Fitness Records Table</font>
@@ -33,14 +33,14 @@
 		<tr>
 			<th>M ID</th>
 			<th>M Name</th>
-		
+
 		</tr>
 		{% for muinf in muinfer %}
 		<tr>
 			<td>{{muinf[0]}}</td>
 			<td>{{muinf[1]}}</td>
 			<td>{{muinf[2]}}</td>
-		
+
 
 		</tr>
 		{% endfor %}
@@ -48,7 +48,7 @@
 	<br><br>
 	<font size="3" color="red">Delete ID<br></font>
 	<input type="number" name="deleted_id" >
-	<input type="submit" name="delete_muinf"value="Delete" />
+	<input type="submit" name="delete_id"value="Delete" />
 
 </form>
 
