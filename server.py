@@ -629,9 +629,57 @@ def delete_fdiet(ido):
         
         return True
 
-@app.route('/muinf') 
-def muinf_page():
-    return render_template('muinf.html')
+
+@app.route('/muinf', methods=['GET', 'POST']) 
+def muinf_page():    
+    
+    if 'muinf_add' in request.form:
+        ido = request.form['MDID']
+        name = request.form['MDNAME']
+    
+        add_muinf(ido, name)
+    elif 'delete_muinf' in request.form:
+        delete_id = request.form['deleted_id']
+        
+        delete_muinf(delete_id)
+        
+    muinf = get_muinf()
+    print(muinf)
+    return render_template('muinf.html', muinfer = muinf) 
+    
+
+def add_muinf(ido, name, age, dfrom, dstart):
+     with dbapi2.connect(app.config['dsn']) as connection:
+         cursor = connection.cursor()
+         
+         cursor.execute("""INSERT INTO FITNESSMD (MDID, MDNAME)
+         VALUES(%s, %s)""", (ido, name))
+         
+         connection.commit()
+         
+         return True
+     
+def get_muinf():
+    with dbapi2.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        
+        cursor.execute("SELECT * FROM FITNESSMD")
+        muinf = cursor.fetchall()
+        
+        connection.commit()
+        
+        return muinf
+    
+def delete_muinf(ido):
+    with dbapi2.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        
+        query = """DELETE FROM FITNESSMD WHERE MDID={}""".format(ido)
+        cursor.execute(query)
+        
+        connection.commit()
+        
+        return True
 
 @app.route('/ffitnessers', methods=['GET', 'POST']) 
 def ffitnessers_page():    
