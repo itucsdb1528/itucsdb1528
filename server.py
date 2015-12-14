@@ -444,9 +444,59 @@ def find_fitnessaward(ido, branch):
         
         return fitnessaward
 
-@app.route('/ftypes') 
-def ftypes_page():
-    return render_template('ftypes.html')
+@app.route('/ftypes', methods=['GET', 'POST']) 
+def ftypes_page():    
+    
+    if 'ftypes_add' in request.form:
+        ido = request.form['FTID']
+        diet = request.form['RECOMMENDED_DIET']
+        name = request.form['FTNAME']
+        age = request.form['FTAGE']
+        fees = request.form['FTFEES']
+
+        add_fdiet(ido, diet,name, age, fees)
+    elif 'delete_ftypes' in request.form:
+        delete_id = request.form['deleted_id']
+        
+        delete_fdiet(delete_id)
+        
+    ftypes = get_ftypes()
+    print(ftypes)
+    return render_template('ftypes.html', ftypeser = ftypes) 
+    
+
+def add_ftypes(ido, diet,name, age, fees):
+     with dbapi2.connect(app.config['dsn']) as connection:
+         cursor = connection.cursor()
+         
+         cursor.execute("""INSERT INTO FITNESSTYPES (FTID, RECOMMENDED_DIET, FTNAME, FTAGE, FTFEES)
+         VALUES(%s, %s, %s, %s, %s)""", (ido, diet,name, age, fees))
+         
+         connection.commit()
+         
+         return True
+     
+def get_ftypes():
+    with dbapi2.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        
+        cursor.execute("SELECT * FROM FITNESSTYPES")
+        ftypes = cursor.fetchall()
+        
+        connection.commit()
+        
+        return ftypes
+    
+def delete_ftypes(ido):
+    with dbapi2.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        
+        query = """DELETE FROM FITNESSTYPES WHERE FTID={}""".format(ido)
+        cursor.execute(query)
+        
+        connection.commit()
+        
+        return True
 
 @app.route('/frecords', methods=['GET', 'POST']) 
 def frecords_page():    

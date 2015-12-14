@@ -1,15 +1,67 @@
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Fitness Types</title>
+<title>Fitness Diets</title>
 <link rel="stylesheet" href="/static/style.css" />
 </head>
 <body>
 <h2>Fitness Types</h2>
-<h4>Here is List of Fitness Types </h4>
+<h4>Here is List of Types of Fitness </h4>
+<form action="/ftypes" method="POST">
+	<font size="4" color="red">Add Diet</font>
+	<table border="1px">
+			<tr>
+			<td>Type ID</td>
+			<td>Rec Diet</td>
+			<td>Type Name</td>
+			<td>Type Start Age</td>
+			<td>Fees</td>
+		</tr>
+		<tr>
+			<td> <input type="number" name="FTID" > </td>
+			<td> <input type="text" name="RECOMMENDED_DIET" > </td>
+			<td> <input type="text" name="FTNAME" > </td>
+			<td> <input type="text" name="FTAGE" > </td>
+			<td> <input type="number" name="FTFEES" > </td>
+		</tr>
+	</table>
+	<input type="submit" name="ftypes_add"value="Add Fitness Type" />
+
+	<br>	<br>	<br>
+	<font size="4" color="red">Fitness Diet Table</font>
+	<table border="1ppx">
+		<tr>
+			<th>Type ID</th>
+			<th>Rec Diet</th>
+			<th>Type Name</th>
+			<th>Type Start Age</th>
+			<th>Fees </th>
+
+		</tr>
+		{% for ftypes in ftypeser %}
+		<tr>
+			<td>{{ftypes[0]}}</td>
+			<td>{{ftypes[1]}}</td>
+			<td>{{ftypes[2]}}</td>
+			<td>{{ftypes[3]}}</td>
+			<td>{{ftypes[4]}}</td>
+			<td>{{ftypes[5]}}</td>
+
+		</tr>
+		{% endfor %}
+	</table>
+	<br><br>
+	<font size="3" color="red">Delete ID<br></font>
+	<input type="number" name="deleted_id" >
+	<input type="submit" name="delete_ftypes"value="Delete Type" />
+
+</form>
+
+
 <footer>
-<div id="datetime">{{ current_time }}</div>
+      <div id="datetime">{{ current_time }}</div>
     </footer>
 </body>
 </html>
