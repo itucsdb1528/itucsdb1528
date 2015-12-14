@@ -448,9 +448,58 @@ def find_fitnessaward(ido, branch):
 def ftypes_page():
     return render_template('ftypes.html')
 
-@app.route('/frecords') 
-def frecords_page():
-    return render_template('frecords.html')
+@app.route('/frecords', methods=['GET', 'POST']) 
+def frecords_page():    
+    
+    if 'frecords_add' in request.form:
+        ido = request.form['RCID']
+        name = request.form['WNAME']
+        kg = request.form['RKG']
+        
+        add_frecords(ido, name, kg)
+    elif 'deleted_rid' in request.form:
+        delete_id = request.form['delete_rid']
+        
+        delete_frecords(delete_id)
+        
+    frecords = get_frecords()
+        
+    print(frecords)
+    return render_template('frecords.html', frecorder = frecords) 
+    
+
+def add_frecords(ido, name, kg):
+     with dbapi2.connect(app.config['dsn']) as connection:
+         cursor = connection.cursor()
+         
+         cursor.execute("""INSERT INTO FITNESSRECORDS (RCID, WNAME, RKG)
+         VALUES(%s, %s, %s)""", (ido, name, kg))
+         
+         connection.commit()
+         
+         return True
+     
+def get_frecords():
+    with dbapi2.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        
+        cursor.execute("SELECT * FROM FITNESSRECORDS")
+        frecords = cursor.fetchall()
+        
+        connection.commit()
+        
+        return frecords
+    
+def delete_frecords(ido):
+    with dbapi2.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        
+        query = """DELETE FROM FITNESSRECORDS WHERE RCID={}""".format(ido)
+        cursor.execute(query)
+        
+        connection.commit()
+        
+        return True
 
 @app.route('/fdiet', methods=['GET', 'POST']) 
 def fdiet_page():    
@@ -522,19 +571,6 @@ def update_DIETT():
         query = """UPDATE DIETT
         SET DNAME = 'jORGE W BUSH'
         WHERE DID = 3000"""
-        cursor.execute(query)
-    
-        connection.commit()
-    return redirect(url_for('home'))
-
-
-@app.route('/delete_values')
-def delete_values():
-    with dbapi2.connect(app.config['dsn']) as connection:
-        cursor = connection.cursor()
-        
-        query = """DELETE FROM MENSFITNESS
-        WHERE ID = 001"""
         cursor.execute(query)
     
         connection.commit()

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,8 +7,55 @@
 <link rel="stylesheet" href="/static/style.css" />
 </head>
 <body>
+<img src="https://cdn0.iconfinder.com/data/icons/16x16-free-toolbar-icons/16/56.png"/>
+<a href="/">Return to homepage</a>
 <h2> Fitness Records</h2>
 <h4>Here is List of World Records of Fitness </h4>
+
+<form action="/frecords" method="POST">
+	<font size="4" color="red">Add Record</font>
+	<table border="1px">
+			<tr>
+			<td>Record ID</td>
+			<td>Record Holder</td>
+			<td>Record Kg</td>
+
+		</tr>
+		<tr>
+			<td> <input type="number" name="RCID" > </td>
+			<td> <input type="text" name="WNAME" > </td>
+			<td> <input type="number" name="RKG" > </td>
+
+		</tr>
+	</table>
+	<input type="submit" name="frecords_add"value="Add Record" />
+
+	<br><br><br>
+	<font size="4" color="red">Fitness Records Table</font>
+	<table border="1ppx">
+		<tr>
+			<th>Record ID</th>
+			<th>Record Name</th>
+			<th>Record Kg</th>
+
+		</tr>
+		{% for frecords in frecorder %}
+		<tr>
+			<td>{{frecords[0]}}</td>
+			<td>{{frecords[1]}}</td>
+			<td>{{frecords[2]}}</td>
+			<td>{{frecords[3]}}</td>
+
+		</tr>
+		{% endfor %}
+	</table>
+	<br><br>
+	<font size="3" color="red">Delete ID<br></font>
+	<input type="number" name="deleted_rid" >
+	<input type="submit" name="delete_rid"value="Delete Record" />
+
+</form>
+
 <footer>
 <div id="datetime">{{ current_time }}</div>
     </footer>
