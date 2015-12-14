@@ -531,7 +531,7 @@ def frecords_page():
         kg = request.form['RKG']
         
         add_frecords(ido, name, kg)
-    elif 'deleted_rid' in request.form:
+    elif 'delete_frecords' in request.form:
         delete_id = request.form['delete_rid']
         
         delete_frecords(delete_id)
@@ -612,11 +612,11 @@ def get_fdiet():
         cursor = connection.cursor()
         
         cursor.execute("SELECT * FROM DIETT")
-        menfitness = cursor.fetchall()
+        fdiet = cursor.fetchall()
         
         connection.commit()
         
-        return menfitness
+        return fdiet
     
 def delete_fdiet(ido):
     with dbapi2.connect(app.config['dsn']) as connection:
@@ -633,9 +633,60 @@ def delete_fdiet(ido):
 def muinf_page():
     return render_template('muinf.html')
 
-@app.route('/ffitnessers') 
-def ffitnessers_page():
-    return render_template('ffitnessers.html')
+@app.route('/ffitnessers', methods=['GET', 'POST']) 
+def ffitnessers_page():    
+    
+    if 'ffitnessers_add' in request.form:
+        ido = request.form['FAMID']
+        name = request.form['FNAME']
+        t = request.form['FTYPEID']
+        rno = request.form['RECORDNO']
+       
+
+        add_ffitnessers(ido, name, t, rno)
+    elif 'delete_ffitnessers' in request.form:
+        delete_id = request.form['deleted_id']
+        
+        delete_ffitnessers(delete_id)
+        
+    ffitnessers = get_ffitnessers()
+    print(ffitnessers)
+    return render_template('ffitnessers.html', ffitnesserser = ffitnessers) 
+    
+        
+def add_ffitnessers(ido, name, t, rno):
+     with dbapi2.connect(app.config['dsn']) as connection:
+         cursor = connection.cursor()
+         
+         cursor.execute("""INSERT INTO FAMFITNESSERS (FAMID, FNAME, FTYPEID, RECORDNO)
+         VALUES(%s, %s, %s, %s)""", (ido, name, t, rno))
+         
+         connection.commit()
+         
+         return True
+     
+def get_ffitnessers():
+    with dbapi2.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        
+        cursor.execute("SELECT * FROM FAMFITNESSERS")
+        ffitnessers = cursor.fetchall()
+        
+        connection.commit()
+        
+        return ffitnessers
+    
+def delete_ffitnessers(ido):
+    with dbapi2.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        
+        query = """DELETE FROM FAMFITNESSERS WHERE FAMID={}""".format(ido)
+        cursor.execute(query)
+        
+        connection.commit()
+        
+        return True
+    
 
 @app.route('/update_DIETT')
 def update_DIETT():

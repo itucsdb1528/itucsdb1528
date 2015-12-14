@@ -8,6 +8,56 @@
 <body>
 <h2>Famous Fitnessers</h2>
 <h4>Here is List of Famous Fitnessers </h4>
+
+<form action="/ffitnessers" method="POST">
+	<font size="4" color="red">Add Famous Fitnessers</font>
+	<table border="1px">
+
+			<tr>
+			<td> ID</td>
+			<td>Fitnesser Name</td>
+			<td>Fitness Type Id</td>
+			<td>Fitness Record No</td>
+		</tr>
+		<tr>
+			<td> <input type="number" name="FAMID" > </td>
+			<td> <input type="text" name="FNAME" > </td>
+			<td> <input type="text" name="FTYPEID" > </td>
+			<td> <input type="text" name="RECORDNO" > </td>
+		</tr>
+	</table>
+	<input type="submit" name="ffitnessers_add"value="Add Fitnesser Record" />
+
+	<br>	<br>	<br>
+	<font size="4" color="red">Fitness Record Table</font>
+	<table border="1ppx">
+		<tr>
+			<th>Person ID</th>
+			<th>Fitnesser's Name</th>
+			<th>Type of Fitness</th>
+			<th>Record No</th>
+
+
+		</tr>
+		{% for ffitnessers in ffitnesserser %}
+		<tr>
+			<td>{{ftypes[0]}}</td>
+			<td>{{ftypes[1]}}</td>
+			<td>{{ftypes[2]}}</td>
+			<td>{{ftypes[3]}}</td>
+			<td>{{ftypes[4]}}</td>
+
+
+		</tr>
+		{% endfor %}
+	</table>
+	<br><br>
+	<font size="3" color="red">Delete ID<br></font>
+	<input type="number" name="deleted_id" >
+	<input type="submit" name="delete_ffitnessers"value="Delete Record" />
+
+</form>
+
 <footer>
       <div id="datetime">{{ current_time }}</div>
     </footer>
