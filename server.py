@@ -221,9 +221,31 @@ def ftypes_page():
 def frecords_page():
     return render_template('frecords.html')
 
-@app.route('/fdiet') 
-def fdiet_page():
-    return render_template('fdiet.html')
+@app.route('/fdiet', methods=['GET', 'POST']) 
+def fdiet_page():    
+    
+    if 'fdiet_add' in request.form:
+        ido = request.form['DID']
+        name = request.form['DNAME']
+        age = request.form['DAGE']
+        height = request.form['DIETFROM']
+        weight = request.form['DIETSTART']
+    
+
+        add_fdiet(ido, name, age, dfrom, dstart)
+    
+    return render_template('fdiet.html') 
+
+def add_fdiet(ido, name, age, dfrom, dstart):
+     with dbapi2.connect(app.config['dsn']) as connection:
+         cursor = connection.cursor()
+         
+         cursor.execute("""INSERT INTO DIETT (DID, DNAME, DAGE, DIETFROM, DIETSTART)
+         VALUES(%s, %s, %s, %s, %s)""", (ido, name, age, dfrom, dstart))
+         
+         connection.commit()
+         
+         return True
 
 @app.route('/muinf') 
 def muinf_page():
