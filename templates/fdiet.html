@@ -8,6 +8,30 @@
 <body>
 <h2>Fitness Diets</h2>
 <h4>Here is List of Diets For Fitness </h4>
+
+<form action="/fdiet" method="POST">
+	<font size="4" color="red">Add Diet</font>
+	<table border="1px">
+		<tr>
+			<td>ID</td>
+			<td>Name</td>
+			<td>Age</td>
+			<td>Diet From</td>
+			<td>Diet Start</td>
+
+		</tr>
+		<tr>
+			<td> <input type="number" name="DID" > </td>
+			<td> <input type="text" name="DNAME" > </td>
+			<td> <input type="number" name="DAGE" > </td>
+			<td> <input type="text" name="DIETFROM" > </td>
+			<td> <input type="text" name="DIETSTART" > </td>
+
+		</tr>
+	</table>
+	<input type="submit" name="fdiet_add"value="Add" />
+</form>
+
 <footer>
       <div id="datetime">{{ current_time }}</div>
     </footer>
