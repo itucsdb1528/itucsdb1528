@@ -31,6 +31,9 @@ def home():
 @app.route('/mensfitness', methods=['GET', 'POST']) 
 def mensfitness_page():    
     
+    if request.method == 'GET':
+        menfitnesses = get_menfitness()
+    
     if 'menfitness_add' in request.form:
         ido = request.form['ID']
         name = request.form['NAME']
@@ -43,12 +46,30 @@ def mensfitness_page():
 
         add_menfitness(ido, name, age, height, weight, favmachine, award, program)
         
+        menfitnesses = get_menfitness()
+        
     elif 'delete_id' in request.form:
         delete_id = request.form['deleted_id']
         
         delete_menfitness(delete_id)
         
-    menfitnesses = get_menfitness()
+        menfitnesses = get_menfitness()
+        
+    elif 'menfitness_find' in request.form:
+        ido = request.form['FIND_ID']
+        name = request.form['FIND_NAME']
+        age = request.form['FIND_AGE']
+        height = request.form['FIND_HEIGHT']
+        weight = request.form['FIND_WEIGHT']
+        favmachine = request.form['FIND_FAV_MACHINE']
+        award = request.form['FIND_LAST_AWARD']
+        program = request.form['FIND_NUT_PROGRAM']
+        
+        menfitnesses = find_menfitness(ido, name, age, height, weight, favmachine, award, program)
+        
+    elif 'menfitness_find_all' in request.form:
+        menfitnesses = get_menfitness()
+        
     print(menfitnesses)
     return render_template('mensfitness.html', menfitnesser = menfitnesses) 
 
@@ -161,6 +182,18 @@ def delete_menfitness(ido):
         connection.commit()
         
         return True
+    
+def find_menfitness(ido, name, age, height, weight, favmachine, award, program):
+    with dbapi2.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        
+        query = """SELECT * FROM MENSFITNESS WHERE ( CAST(ID AS TEXT) LIKE '{}%') AND (NAME LIKE  '{}%' ) AND ( CAST(AGE AS TEXT) LIKE '{}%') AND ( CAST(HEIGHT AS TEXT) LIKE '{}%') AND ( CAST(WEIGHT AS TEXT) LIKE '{}%') AND ( CAST(FAV_MACHINE AS TEXT) LIKE '{}%') AND ( CAST(LAST_AWARD AS TEXT) LIKE '{}%') AND ( CAST(NUT_PROGRAM AS TEXT) LIKE '{}%')""".format(ido, name, age, height, weight, favmachine, award, program)
+        cursor.execute(query)
+        mensfitness = cursor.fetchall()
+        
+        connection.commit()
+        
+        return mensfitness
     
 def add_womenfitness(ido, name, age, height, weight, favmachine, award, program):
     with dbapi2.connect(app.config['dsn']) as connection:
