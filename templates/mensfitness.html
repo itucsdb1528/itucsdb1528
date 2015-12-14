@@ -37,7 +37,6 @@
 	</table>
 	<input type="submit" name="menfitness_add"value="Add" />
 
-
 </br>
 <font size="1" color="gray"><b>Note :</b></font>
 <font size="1" color="black">Fav. fitness machine, Last award taken and Using nutr. program should be in other tables because they are foreign keys.</font>
@@ -46,6 +45,7 @@
 <font size="1" color="black">201 -> Fav. Fitness Machine</br>901 -> Last Award Taken</br>301 -> Using nutr. program</font>
 
 	<br><br><br>
+	<font size="3" color="red">Inside database:</font>
 	<table border="1px">
 		<tr>
 			<th>ID</th>
@@ -70,6 +70,12 @@
 		</tr>
 		{% endfor %}
 	</table>
+	<br><br>
+	<font size="3" color="red">Delete ID<br></font>
+	<input type="number" name="deleted_id" >
+	<input type="submit" name="delete_id"value="Delete" />
+	
 </form>
+
 </body>
 </html>

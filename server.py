@@ -31,9 +31,6 @@ def home():
 @app.route('/mensfitness', methods=['GET', 'POST']) 
 def mensfitness_page():    
     
-    if request.method == 'GET':
-        menfitnesses = get_menfitness()
-    
     if 'menfitness_add' in request.form:
         ido = request.form['ID']
         name = request.form['NAME']
@@ -46,16 +43,17 @@ def mensfitness_page():
 
         add_menfitness(ido, name, age, height, weight, favmachine, award, program)
         
-        menfitnesses = get_menfitness()
-    
+    elif 'delete_id' in request.form:
+        delete_id = request.form['deleted_id']
+        
+        delete_menfitness(delete_id)
+        
+    menfitnesses = get_menfitness()
     print(menfitnesses)
     return render_template('mensfitness.html', menfitnesser = menfitnesses) 
 
 @app.route('/womensfitness', methods=['GET', 'POST']) 
-def womensfitness_page():
-        
-    if request.method == 'GET':
-        womenfitnesses = get_womenfitness()    
+def womensfitness_page():  
         
     if 'womenfitness_add' in request.form:
         ido = request.form['ID']
@@ -69,15 +67,17 @@ def womensfitness_page():
 
         add_menfitness(ido, name, age, height, weight, favmachine, award, program)
         
-        womenfitnesses = get_womenfitness()
-    
+    elif 'delete_id' in request.form:
+        delete_id = request.form['deleted_id']
+        
+        delete_womenfitness(delete_id)
+        
+    womenfitnesses = get_womenfitness()
+    print(womenfitnesses)
     return render_template('womensfitness.html', womenfitnesser = womenfitnesses) 
 
 @app.route('/nutritionprograms', methods=['GET', 'POST']) 
 def nutritionprograms_page():
-
-    if request.method == 'GET':
-        nutritionprogram = get_nutritionprogram()
 
     if 'nutritionprograms_add' in request.form:
         ido = request.form['ID']
@@ -86,15 +86,16 @@ def nutritionprograms_page():
 
         add_nutritionprogram(ido, name, calories)
         
-        nutritionprogram = get_nutritionprogram()
-
+    elif 'delete_id' in request.form:
+        delete_id = request.form['deleted_id']
+        
+        delete_nutritionprogram(delete_id)
+        
+    nutritionprogram = get_nutritionprogram()
     return render_template('nutritionprograms.html', nutritionprograms = nutritionprogram) 
 
 @app.route('/fitnessmachines', methods=['GET', 'POST']) 
 def fitnessmachines_page():
-
-    if request.method == 'GET':
-        fitnessmachine = get_fitnessmachine()
 
     if 'fitnessmachines_add' in request.form:
         ido = request.form['ID']
@@ -103,24 +104,29 @@ def fitnessmachines_page():
 
         add_fitnessmachine(ido, name, working_muscles)
         
-        fitnessmachine = get_fitnessmachine()    
-
+    elif 'delete_id' in request.form:
+        delete_id = request.form['deleted_id']
+        
+        delete_fitnessmachine(delete_id)
+        
+    fitnessmachine = get_fitnessmachine()    
     return render_template('fitnessmachines.html', fitnessmachines = fitnessmachine) 
 
 @app.route('/fitnessawards', methods=['GET', 'POST']) 
 def fitnessawards_page():
-    
-    if request.method == 'GET':
-        fitnessaward = get_fitnessaward()
     
     if 'fitnessawards_add' in request.form:
         ido = request.form['ID']
         branch = request.form['BRANCH']
 
         add_fitnessaward(ido, branch) 
-    
-        fitnessaward = get_fitnessaward()
         
+    elif 'delete_id' in request.form:
+        delete_id = request.form['deleted_id']
+        
+        delete_fitnessaward(delete_id)
+    
+    fitnessaward = get_fitnessaward()    
     return render_template('fitnessawards.html', fitnessawards = fitnessaward) 
 
 def add_menfitness(ido, name, age, height, weight, favmachine, award, program):
@@ -145,6 +151,17 @@ def get_menfitness():
         
         return menfitness
     
+def delete_menfitness(ido):
+    with dbapi2.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        
+        query = """DELETE FROM MENSFITNESS WHERE ID={}""".format(ido)
+        cursor.execute(query)
+        
+        connection.commit()
+        
+        return True
+    
 def add_womenfitness(ido, name, age, height, weight, favmachine, award, program):
     with dbapi2.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
@@ -166,6 +183,17 @@ def get_womenfitness():
         connection.commit()
         
         return womenfitness
+    
+def delete_womenfitness(ido):
+    with dbapi2.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        
+        query = """DELETE FROM WOMENSFITNESS WHERE ID={}""".format(ido)
+        cursor.execute(query)
+        
+        connection.commit()
+        
+        return True
     
 def add_nutritionprogram(ido, name, calories):
     with dbapi2.connect(app.config['dsn']) as connection:
@@ -189,6 +217,17 @@ def get_nutritionprogram():
         
         return nutritionprogram
     
+def delete_nutritionprogram(ido):
+    with dbapi2.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        
+        query = """DELETE FROM NUTRITIONPROGRAMS WHERE ID={}""".format(ido)
+        cursor.execute(query)
+        
+        connection.commit()
+        
+        return True
+    
 def add_fitnessmachine(ido, name, working_muscle):
     with dbapi2.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
@@ -211,6 +250,17 @@ def get_fitnessmachine():
         
         return fitnessmachine
     
+def delete_fitnessmachine(ido):
+    with dbapi2.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        
+        query = """DELETE FROM FITNESSMACHINES WHERE ID={}""".format(ido)
+        cursor.execute(query)
+        
+        connection.commit()
+        
+        return True
+    
 def add_fitnessaward(ido, branch):
     with dbapi2.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
@@ -232,6 +282,17 @@ def get_fitnessaward():
         connection.commit()
         
         return fitnessaward
+    
+def delete_fitnessaward(ido):
+    with dbapi2.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        
+        query = """DELETE FROM FITNESSAWARDS WHERE ID={}""".format(ido)
+        cursor.execute(query)
+        
+        connection.commit()
+        
+        return True
 
 @app.route('/ftypes') 
 def ftypes_page():
