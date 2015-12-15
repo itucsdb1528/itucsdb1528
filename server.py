@@ -682,6 +682,7 @@ def get_fdiet():
         
         return fdiet
     
+    
 def delete_fdiet(ido):
     with dbapi2.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
