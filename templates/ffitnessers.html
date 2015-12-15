@@ -16,13 +16,11 @@
 			<tr>
 			<td> ID</td>
 			<td>Fitnesser Name</td>
-			<td>Fitness Type Id</td>
 			<td>Fitness Record No</td>
 		</tr>
 		<tr>
 			<td> <input type="number" name="FAMID" > </td>
 			<td> <input type="text" name="FNAME" > </td>
-			<td> <input type="text" name="FTYPEID" > </td>
 			<td> <input type="text" name="RECORDNO" > </td>
 		</tr>
 	</table>
@@ -34,18 +32,16 @@
 		<tr>
 			<th>Person ID</th>
 			<th>Fitnesser's Name</th>
-			<th>Type of Fitness</th>
 			<th>Record No</th>
 
 
 		</tr>
 		{% for ffitnessers in ffitnesserser %}
 		<tr>
-			<td>{{ftypes[0]}}</td>
-			<td>{{ftypes[1]}}</td>
-			<td>{{ftypes[2]}}</td>
-			<td>{{ftypes[3]}}</td>
-			<td>{{ftypes[4]}}</td>
+			<td>{{ffitnessers[0]}}</td>
+			<td>{{ffitnessers[1]}}</td>
+			<td>{{ffitnessers[2]}}</td>
+	
 
 
 		</tr>

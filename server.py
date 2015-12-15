@@ -483,7 +483,7 @@ def ftypes_page():
         age = request.form['FTAGE']
         fees = request.form['FTFEES']
         
-        add_fdiet(ido, diet,name, age, fees)
+        add_ftypes(ido, diet,name, age, fees)
         ftypes = get_ftypes()
     elif 'delete_id' in request.form:
         delete_id = request.form['deleted_id']
@@ -575,7 +575,7 @@ def frecords_page():
     frecords = get_frecords()
         
     print(frecords)
-    return render_template('frecords.html', frecorder = frecords) 
+    return render_template('frecords.html', frecordser = frecords) 
     
 
 def add_frecords(ido, name, kg):
@@ -685,12 +685,12 @@ def muinf_page():
         
         delete_muinf(delete_id)
         
-    muinf = get_muinf()
+        muinf = get_muinf()
     print(muinf)
     return render_template('muinf.html', muinfer = muinf) 
     
 
-def add_muinf(ido, name, age, dfrom, dstart):
+def add_muinf(ido, name):
      with dbapi2.connect(app.config['dsn']) as connection:
          cursor = connection.cursor()
          
@@ -731,11 +731,9 @@ def ffitnessers_page():
     elif 'ffitnessers_add' in request.form:
         ido = request.form['FAMID']
         name = request.form['FNAME']
-        t = request.form['FTYPEID']
         rno = request.form['RECORDNO']
        
-
-        add_ffitnessers(ido, name, t, rno)
+        add_ffitnessers(ido, name, rno)
         ffitnessers = get_ffitnessers()
         
     elif 'delete_id' in request.form:
@@ -748,12 +746,12 @@ def ffitnessers_page():
     return render_template('ffitnessers.html', ffitnesserser = ffitnessers) 
     
         
-def add_ffitnessers(ido, name, t, rno):
+def add_ffitnessers(ido, name, rno):
      with dbapi2.connect(app.config['dsn']) as connection:
          cursor = connection.cursor()
          
-         cursor.execute("""INSERT INTO FAMFITNESSERS (FAMID, FNAME, FTYPEID, RECORDNO)
-         VALUES(%s, %s, %s, %s)""", (ido, name, t, rno))
+         cursor.execute("""INSERT INTO FAMFITNESSERS (FAMID, FNAME, RECORDNO)
+         VALUES(%s, %s, %s)""", (ido, name, rno))
          
          connection.commit()
          
@@ -780,32 +778,6 @@ def delete_ffitnessers(ido):
         connection.commit()
         
         return True
-    
-
-@app.route('/update_DIETT')
-def update_DIETT():
-    with dbapi2.connect(app.config['dsn']) as connection:
-        cursor = connection.cursor()
-        
-        query = """UPDATE DIETT
-        SET DNAME = 'jORGE W BUSH'
-        WHERE DID = 3000"""
-        cursor.execute(query)
-    
-        connection.commit()
-    return redirect(url_for('home'))
-
-@app.route('/delete_DIETT')
-def delete_DIETT():
-    with dbapi2.connect(app.config['dsn']) as connection:
-        cursor = connection.cursor()
-        
-        query = """DELETE FROM DIETT
-        WHERE DID = 1000"""
-        cursor.execute(query)
-    
-        connection.commit()
-    return redirect(url_for('home'))
 
 
 @app.route('/initdatabase')
@@ -855,7 +827,7 @@ def initialize_database():
         query = """CREATE TABLE FITNESSMACHINES
         (
         ID   INT              NOT NULL,
-        NAME VARCHAR (30)     NOT NULL,
+        NAME VARCHAR (30)     ,
         WORKING_MUSCLES VARCHAR(50),
         PRIMARY KEY(ID)
         )"""
@@ -864,7 +836,7 @@ def initialize_database():
         query = """CREATE TABLE FITNESSAWARDS
         (
         ID   INT              NOT NULL,
-        BRANCH VARCHAR(50)    NOT NULL,
+        BRANCH VARCHAR(50)    ,
         PRIMARY KEY(ID)
         )"""
         cursor.execute(query)
@@ -949,12 +921,14 @@ def initialize_database():
         (
         FAMID   INT              NOT NULL,
         FNAME VARCHAR (30)   ,
-        FTYPEID INT,
         RECORDNO INT,
         PRIMARY KEY (FAMID), 
-        FOREIGN KEY (FTYPEID) REFERENCES FITNESSTYPES(FTID),
         FOREIGN KEY (RECORDNO) REFERENCES FITNESSRECORDS(RCID)
         )"""
+        cursor.execute(query)
+        
+        query="""INSERT INTO FITNESSRECORDS (RCID, WNAME, RKG)
+        VALUES(20, 'EGG PROGRAM', 2400)"""
         cursor.execute(query)
         
         query = """INSERT INTO NUTRITIONPROGRAMS (ID, NAME, CALORIES)
