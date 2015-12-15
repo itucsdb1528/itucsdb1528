@@ -96,6 +96,31 @@ def get_menfitnesswithprogram():
         connection.commit()
         
         return menfitnesswithprogram
+    
+@app.route('/join', methods=['GET', 'POST']) 
+def jointables_page():    
+    
+    if request.method == 'GET':
+        join = get_join()
+        
+    print(join)
+    return render_template('jointable.html', joina = join) 
+
+def get_join():
+    with dbapi2.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        
+        
+        query = """SELECT RCID ,WNAME, RKG FROM FITNESSRECORDS FULL OUTER JOIN FAMFITNESSERS
+                ON FITNESSRECORDS.RCID = FAMFITNESSERS.RECORDNO  """
+        cursor.execute(query)
+        
+        join = cursor.fetchall()
+        
+        connection.commit()
+        
+        return join
+    
 
 @app.route('/womensfitness', methods=['GET', 'POST']) 
 def womensfitness_page():  
@@ -650,7 +675,7 @@ def get_fdiet():
     with dbapi2.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
         
-        cursor.execute("SELECT * FROM DIETT")
+        cursor.execute("SELECT * FROM DIETT GROUP BY DIETFROM")
         fdiet = cursor.fetchall()
         
         connection.commit()
@@ -705,7 +730,7 @@ def get_muinf():
     with dbapi2.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
         
-        cursor.execute("SELECT * FROM FITNESSMD")
+        cursor.execute("SELECT * FROM FITNESSMD ORDER BY MDNAME")
         muinf = cursor.fetchall()
         
         connection.commit()

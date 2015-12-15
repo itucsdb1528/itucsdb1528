@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title> Join Table </title>
+<link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+<img src="https://cdn0.iconfinder.com/data/icons/16x16-free-toolbar-icons/16/56.png"/>
+<a href="/">Return to homepage</a>
+
+<h2>Fitness Records inner join Famous Fitnessers</h2>
+<h5>Here is the Result of Join</h5>
+
+	<br><br><br>
+	<font size="3" color="red">Join</font>
+	<table border="1px">
+		<tr>
+			<th>Fitness Record No</th>
+			<th>Fitness Record Holder Name</th>
+			<th>Kg of Record</th>
+		</tr>
+		{% for join in joina %}
+		<tr>
+			<td>{{join[0]}}</td>
+			<td>{{join[1]}}</td>
+			<td>{{join[2]}}</td>
+			
+		
+		</tr>
+		{% endfor %}
+	</table>
+
+
+</body>
+</html>
