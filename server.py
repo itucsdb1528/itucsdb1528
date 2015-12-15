@@ -675,7 +675,7 @@ def get_fdiet():
     with dbapi2.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
         
-        cursor.execute("SELECT * FROM DIETT GROUP BY DIETFROM")
+        cursor.execute("SELECT * FROM DIETT")
         fdiet = cursor.fetchall()
         
         connection.commit()
