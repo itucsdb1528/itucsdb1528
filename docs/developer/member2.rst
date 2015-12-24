@@ -1,16 +1,18 @@
 Parts Implemented by Maqsood Ahmad Lemar
 ========================================
 
+
 Database Design itucsb1528
 --------------------------
 
 .. figure:: static/1.png
-      :scale: 75 %
+      :scale: 50 %
       :alt: The General Views of Tables and Relationships
 
       Fig. 1: ER diagram of tables showing Primary keys bold.
 
 I have implemented 5 tables in this project, they are explained one by one bellow.
+
 
 Table 1 (Diet Table):
 *********************
@@ -39,6 +41,7 @@ This table is to store information about diets used in fitness.
 
 
 
+
 Table 2 (Fitness Types):
 ************************
 
@@ -55,7 +58,9 @@ Table 2 (Fitness Types):
 		FOREIGN KEY (RECOMMENDED_DIET) REFERENCES DIETT (DID)
         )
 
+
 This table stores information about Types of the fitness. It also keeps records of type of diets required for each type of fitness.
+
 
 *FTID* 			Fitness Type Id
 *RECOMMENDED_DIET* 	Fitness Type Diet 
@@ -63,8 +68,10 @@ This table stores information about Types of the fitness. It also keeps records 
 *FTAGE* 		Fitness Type Age requirements at which age it should be started
 *FTFEES* 		Fitness Type Fees if fitnessers are joing at a private club
 
+
 *FTID* Fitness Type Id is the primary key for this table.
 *RECOMMENDED_DIET * Refrences the Diet Id of Diets table.
+
 
 
 Table 3 (Fitness Records Worldwide):
@@ -80,6 +87,7 @@ Table 3 (Fitness Records Worldwide):
 		PRIMARY KEY (RCID)
         )
 
+
 This table stores information about Fitness Records that fitnessers won worldwide, it is important to mention the KG of weight that the fitnessers won the record in.
 
 *RCID* 			Fitness Record Id 
@@ -87,6 +95,7 @@ This table stores information about Fitness Records that fitnessers won worldwid
 *RKG* 			Fitness Record Kg that fitnessers won record in
 
 *RCID* Fitness Record Id is the primary key for this table.
+
 
 
 Table 4 (Fitness Midicines):
@@ -101,12 +110,16 @@ Table 4 (Fitness Midicines):
 		PRIMARY KEY (MDID)
         )
 
+
 This table stores information about medicines some fitnessers use during the fitness, some could be usefull where some could not be healty, so here we will try to list the healthy ones.
 
 *MDID* 			Medicine Id
 *MDNAME* 		Medicine Name which is famous in todays market
 
+
 *MDID* Fitness Medicine Id is the primary key for this table.
+
+
 
 
 Table 5 (Famous Fitnessers):
@@ -123,6 +136,7 @@ Table 5 (Famous Fitnessers):
 		FOREIGN KEY 	(RECORDNO) REFERENCES FITNESSRECORDS(RCID)
         )
 
+
 This table stores information about Famous fitnessers who have fame in this area of sports, Who have respect in Peoples eyes in the field of fitness.
 
 *FAMID* 		Famous Fitnessers Id 
@@ -134,7 +148,9 @@ This table stores information about Famous fitnessers who have fame in this area
 *RECORDNO* Refrences the Fitnessers Record table to show if a famous fitnesser won a record or not.
 
 
-Tables General (Refrenctial Integrity):
+
+
+Tables General (Refrential Integrity):
 ****************************************
 
 .. code-block:: plpgsql
@@ -160,7 +176,9 @@ Tables General (Refrenctial Integrity):
         query = """DROP TABLE IF EXISTS FITNESSRECORDS CASCADE"""
         cursor.execute(query)
 
+
 Since we need to keep data safe for refrential integrity, I have put Cascade for tables, to keep data it exits in one table and deleted on another table. 
+
 
 
 
@@ -171,7 +189,6 @@ Functions Explainations
 
         @app.route('/ftypes', methods=['GET', 'POST']) 
 	def ftypes_page():
-        .
         .
         .
         .
@@ -288,7 +305,6 @@ Functions Explainations
 	.
 	.
 	.
-	.
 	return render_template('ftypes.html', ftypeser = ftypes) 
 
 	
@@ -300,7 +316,6 @@ Functions Explainations
 	@app.route('/frecords', methods=['GET', 'POST']) 
 	def frecords_page():    
 	.
-        .
         .
         .
 
@@ -359,17 +374,17 @@ Functions Explainations
 			connection.commit()
 		
 			return True
-	.
         .
         .
         .
+
 	"""
 	The Prototypes of Add, Edit, Delete Functions with Functions for Table of Fitness Diets
-	"""	
+	"""
+	
 	@app.route('/fdiet', methods=['GET', 'POST'])  
 	def fdiet_page():
 	.
-        .
         .
         .
 	   
@@ -426,20 +441,20 @@ Functions Explainations
 			connection.commit()
 		
 			return True
-	.
         .
         .
         .
 
+
 	"""
 	The Prototypes of Add, Edit, Delete Functions with Functions for Table of Medicines Used in Fitness
 	"""
+
 	@app.route('/muinf', methods=['GET', 'POST']) 
 	def muinf_page(): 
 	.
         .
-        .
-        .   
+        . 
 		    if request.method == 'GET':
 			muinf = get_muinf()
 		
@@ -491,20 +506,20 @@ Functions Explainations
 			connection.commit()
 		
 			return True
-	.
         .
         .
         .
 
+
 	"""
 	The Prototypes of Add, Edit, Delete Functions with Functions for Table of Famous Fitnessers
 	"""
+
 	@app.route('/ffitnessers', methods=['GET', 'POST']) 
 	def ffitnessers_page(): 
 	.
         .
         .
-        . 
 		    if request.method == 'GET':
 			ffitnessers = get_ffitnessers()
 		
@@ -557,7 +572,6 @@ Functions Explainations
 		
 			connection.commit()
 			return True
-	.
         .
         .
         . 

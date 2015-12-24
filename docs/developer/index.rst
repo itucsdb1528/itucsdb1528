@@ -1,8 +1,8 @@
 Developer Guide
 ===============
 
-Database Design
----------------
+Database Design itucsb1528
+--------------------------
 
 **explain the database design of your project**
 
@@ -24,8 +24,8 @@ Code
 
 .. toctree::
 
-   member1
-   member2
+   Efe Helvaci
+   Maqsood Ahmad Lemar
    member3
    member4
    member5
