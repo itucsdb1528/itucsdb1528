@@ -1,14 +1,14 @@
 Parts Implemented by Maqsood Ahmad Lemar
-================================
+========================================
 
-Database Design
----------------
+Database Design itucsb1528
+--------------------------
 
-.. figure:: static/firmakerdiag.jpg
+.. figure:: static/1.png
       :scale: 75 %
-      :alt: map to buried treasure
+      :alt: The General Views of Tables and Relationships
 
-      Fig. 1: ER diagram of tables implemented by me.
+      Fig. 1: ER diagram of tables showing Primary keys bold.
 
 I have implemented 5 tables in this project, they are explained one by one bellow.
 
@@ -89,8 +89,8 @@ This table stores information about Fitness Records that fitnessers won worldwid
 *RCID* Fitness Record Id is the primary key for this table.
 
 
-Table 4 (ntc_tag_rel):
-**********************
+Table 4 (Fitness Midicines):
+****************************
 
 .. code-block:: plpgsql
 
@@ -109,8 +109,8 @@ This table stores information about medicines some fitnessers use during the fit
 *MDID* Fitness Medicine Id is the primary key for this table.
 
 
-Table 5 (ntc_tag_rel):
-**********************
+Table 5 (Famous Fitnessers):
+****************************
 
 .. code-block:: plpgsql
 
