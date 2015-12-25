@@ -1,11 +1,11 @@
 Welcome to itucsdb1528's documentation!
-===================================
+=======================================
 
 :Team: itucsb1528
 
 :Members:
 
-   * member 1
+   * Efe Helvaci
    * Maqsood Ahmad lemar
    * Member 3
    * Member 4
