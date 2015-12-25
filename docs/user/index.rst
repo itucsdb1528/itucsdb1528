@@ -67,8 +67,8 @@ Here it is a join table where mix data could be seen from two different tables u
 
 .. toctree::
 
-   Efe Helvaci
-   Maqsood Ahmad Lemar
+   member1
+   member2
    member3
    member4
    member5

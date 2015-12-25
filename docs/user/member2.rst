@@ -67,12 +67,4 @@ Here is the view for Famous Fitnessers page, togather with add, delete part. Her
 Here it is a join table where mix data could be seen from two different tables using sql join command 
 
 
-
-.. toctree::
-
-   Efe Helvaci
-   Maqsood Ahmad Lemar
-   member3
-   member4
-   member5
    

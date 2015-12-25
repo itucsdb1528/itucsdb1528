@@ -1,17 +1,17 @@
 Welcome to itucsdb1528's documentation!
 ===================================
 
-:Team: Itucsb1528
+:Team: itucsb1528
 
 :Members:
 
-   * Efe Helvaci
-   * Maqsood Ahmad Lemar
+   * member 1
+   * Maqsood Ahmad lemar
    * Member 3
    * Member 4
    * Member 5
 
-**project description goes here (a few paragraphs)**
+**Fitness**
 
 The Project is about Fitness, Data regarding fitness types, machines, diets, male female fitness, diets, fitness records could be added this database. html, css, python and Sql has been used for developing the project. Besides, Sphinix for documentation, github for team work and IBM jazzhub servers to run the code online. It is a semister project. Why was it important to make a database about fintess is described bellow.
 
